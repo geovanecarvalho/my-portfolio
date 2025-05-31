@@ -1,14 +1,12 @@
-import { useState } from 'react'
-import './App.css'
+import {Routes, Route} from 'react-router-dom';
+import Home from './pages/home.tsx';
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const App: React.FC = () => {
   return (
-    <div className="bg-blue-500 text-white p-4">
-      Tailwind está funcionando!
-    </div>
-  )
+    <Routes>
+      <Route path="/" element={<Home  />} />
+      {/* Adicione outras rotas aqui */}
+    </Routes>
+  );
 }
-
-export default App
+export default App;
