@@ -13,6 +13,7 @@ const AdminJumbotron = ({ userName }: Props) => {
       <p className="text-lg md:text-xl text-blue-100">
         Esta é a área administrativa do sistema. Aproveite suas ferramentas!
       </p>
+      
     </div>
   )
 }
