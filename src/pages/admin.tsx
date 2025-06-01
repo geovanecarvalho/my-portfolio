@@ -1,11 +1,14 @@
 import type React from "react";
+import ComponentMenuAdmin from "../components/Admin/compMenuAdmin";
+import AdminJumbotron from "../components/Admin/compJumbotron";
 
 
 const Admin: React.FC = () => {
   return (
-    <div className="bg-blue-500 text-white p-4">
-      Página de Administração
-    </div>
+    <>
+      <ComponentMenuAdmin/>,
+      <AdminJumbotron userName="Geovane Carvalho"/>
+    </>
   );
 }
 

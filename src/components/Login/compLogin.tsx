@@ -4,13 +4,14 @@ import { useNavigate } from "react-router-dom";
 
 export default function ComponentLogin() {
   const navigate = useNavigate();
-
+  
   const loginWithGoogle = async () => {
     try {
       await signInWithPopup(auth, provider);
       // Redireciona para a home ou admin após login
       navigate("/admin");
     } catch (error) {
+        error instanceof Error &&
       alert("Erro ao fazer login: " + error.message);
     }
   };
