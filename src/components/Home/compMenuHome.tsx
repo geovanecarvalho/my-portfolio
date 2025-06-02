@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import Logo from "../../assets/icon.png";
-import { useAuthState } from "react-firebase-hooks/auth";
+import { useState, useEffect } from "react";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../../services/firebase";
 
 interface Props {
@@ -9,7 +10,21 @@ interface Props {
 
 const ComponentMenuHome = ({ pageName }: Props) => {
   const location = useLocation();
-  const [user, loading] = useAuthState(auth);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Detecta autenticação
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setIsLoggedIn(!!user);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    await signOut(auth);
+    setIsMenuOpen(false); // fecha o menu após logout
+  };
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -18,36 +33,34 @@ const ComponentMenuHome = ({ pageName }: Props) => {
       isActive(path) ? "text-orange-400 font-bold underline" : "text-white"
     }`;
 
-  const handleLogout = async () => {
-    await auth.signOut();
-  };
-
   return (
-    <nav className="bg-gradient-to-r from-blue-900 via-blue-700 to-blue-400 text-white p-4">
-      <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-        <div className="flex items-center text-white text-xl font-bold space-x-2">
+    <nav className="bg-gradient-to-r from-blue-900 via-blue-700 to-blue-400 text-white p-4 shadow-md">
+      <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
+        {/* Logo e nome */}
+        <div className="flex items-center space-x-2 text-xl font-bold">
           <img src={Logo} alt="Logo" className="w-10" />
           <span>{pageName}</span>
         </div>
 
-        <div className="space-x-4 hidden md:flex items-center">
-          {!loading && user ? (
+        {/* Botão Hamburguer (mobile) */}
+        <button
+          className="md:hidden text-white text-2xl"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
+          ☰
+        </button>
+
+        {/* Menu Links */}
+        <div
+          className={`${
+            isMenuOpen ? "flex" : "hidden"
+          } md:flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6 absolute md:static top-16 right-4 bg-blue-800 md:bg-transparent p-4 md:p-0 rounded-lg md:rounded-none shadow-md md:shadow-none z-50`}
+        >
+          {isLoggedIn ? (
             <>
-              <Link
-                to="/admin"
-                className="
-                  px-4 py-2 rounded-md 
-                  bg-gradient-to-r from-green-600 via-green-500 to-green-400 
-                  text-white font-bold 
-                  shadow-lg 
-                  hover:from-green-300 hover:via-green-400 hover:to-green-500 
-                  transition
-                  duration-300
-                "
-              >
+              <Link to="/admin" className={linkClasses("/admin")}>
                 Admin
               </Link>
-
               <button
                 onClick={handleLogout}
                 className="
@@ -56,8 +69,7 @@ const ComponentMenuHome = ({ pageName }: Props) => {
                   text-white font-bold 
                   shadow-lg 
                   hover:from-yellow-300 hover:via-orange-400 hover:to-red-500 
-                  transition
-                  duration-300
+                  transition duration-300
                 "
               >
                 Logout
@@ -72,8 +84,7 @@ const ComponentMenuHome = ({ pageName }: Props) => {
                 text-white font-bold 
                 shadow-lg 
                 hover:from-yellow-300 hover:via-orange-400 hover:to-red-500 
-                transition
-                duration-300
+                transition duration-300
               "
             >
               Login
