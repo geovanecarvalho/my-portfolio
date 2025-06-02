@@ -1,12 +1,11 @@
 import { Link, useLocation } from "react-router-dom";
 import Logo from "../../assets/icon.png";
-import ButtonLogout from "./compLogout";
 
 interface Props {
     pageName: string;
 }
 
-const ComponentMenuAdmin = ({ pageName }: Props) => {
+const ComponentMenuLogin = ({ pageName }: Props) => {
     const location = useLocation();
 
     // Verifica se o path atual corresponde ao link
@@ -26,23 +25,23 @@ const ComponentMenuAdmin = ({ pageName }: Props) => {
                     <span>{pageName}</span>
                 </div>
                 <div className="space-x-6 hidden md:flex items-center">
-                    <Link to="/" className={linkClasses("/")}>
-                        Home
-                    </Link>
-                    <Link to="/admin" className={linkClasses("/admin")}>
-                        Admin
-                    </Link>
-                    <Link to="/admin/profile" className={linkClasses("/admin/profile")}>
-                        Profile
-                    </Link>
-                    <Link to="/admin/projects" className={linkClasses("/admin/projects")}>
-                        Projetos
-                    </Link>
-                    <ButtonLogout />
+                    <Link
+                        to="/"
+                        className="
+                            px-4 py-2 rounded-md 
+                            bg-gradient-to-r from-yellow-600 via-orange-500 to-red-600 
+                            text-white font-bold 
+                            shadow-lg 
+                            hover:from-yellow-300 hover:via-orange-400 hover:to-red-500 
+                            transition
+                            duration-300
+                        ">
+                            Home
+                </Link>
                 </div>
             </div>
         </nav>
     );
 };
 
-export default ComponentMenuAdmin;
+export default ComponentMenuLogin;

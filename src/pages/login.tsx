@@ -1,12 +1,13 @@
 import type React from "react";
 import ComponentLogin from "../components/Login/compLogin";
+import ComponentMenuLogin from "../components/Login/compMenuLogin";
 
 const Login: React.FC = () => {
   return (
-    <div className="">
-      Página de Login
+    <>
+      <ComponentMenuLogin pageName="Página de Login" />
       <ComponentLogin />
-    </div>
+    </>
 
   );
 }

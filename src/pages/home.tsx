@@ -1,11 +1,9 @@
 import type React from "react";
-
+import ComponentMenuHome from "../components/Home/compMenuHome";
 
 const Home: React.FC = () => {
   return (
-    <div className="bg-blue-500 text-white p-4">
-      Página Inicial
-    </div>
+      <ComponentMenuHome pageName="Seja bem-vindo ao meu portfólio" />
   );
 }
 
