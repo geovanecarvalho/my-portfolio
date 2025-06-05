@@ -99,6 +99,9 @@ export default function FormProfile() {
         atualizadoEm: serverTimestamp()
       });
       setMensagem("Perfil atualizado com sucesso!");
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     } catch (error) {
       console.error(error);
       setMensagem("Erro ao atualizar perfil.");

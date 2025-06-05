@@ -8,6 +8,7 @@ interface FormConferenciaState {
   nome: string;
   data: string;
   local: string;
+  site: string;
 }
 
 export default function FormConferencia() {
@@ -15,7 +16,8 @@ export default function FormConferencia() {
     imagem: "",
     nome: "",
     data: "",
-    local: ""
+    local: "",
+    site: ""
   });
   const [mensagem, setMensagem] = useState("");
 
@@ -34,10 +36,11 @@ export default function FormConferencia() {
         nome: form.nome,
         data: form.data,
         local: form.local,
+        site: form.site,
         criadoEm: serverTimestamp()
       });
       setMensagem("Conferência cadastrada com sucesso!");
-      setForm({ imagem: "", nome: "", data: "", local: "" });
+      setForm({ imagem: "", nome: "", data: "", local: "", site: "" });
     } catch (error) {
       console.error(error);
       setMensagem("Erro ao cadastrar conferência.");
@@ -65,6 +68,7 @@ export default function FormConferencia() {
         <Input label="Nome da Conferência" name="nome" />
         <Input label="Data" name="data" type="date" />
         <Input label="Local" name="local" />
+        <Input label="URL do Site da Conferência" name="site" type="url" />
         <button
           type="submit"
           className="bg-white text-blue-800 py-3 rounded-md font-semibold hover:bg-blue-100 transition"

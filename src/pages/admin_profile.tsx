@@ -23,6 +23,7 @@ const Profile: React.FC = () => {
                 <DashboardTables />
             </main>
         </div>
+        
         <Modal isOpen={isProfileModalOpen} onClose={() => setIsProfileModalOpen(false)} title="Cadastro de Profile">
             <FormProfile />
         </Modal>
