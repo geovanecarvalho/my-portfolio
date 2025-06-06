@@ -3,11 +3,22 @@ import { auth, provider } from "../../services/firebase";
 import { useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import Logo from "../../assets/icon.png"; // sua logo
+import { useEffect } from "react";
+import { getRedirectResult } from "firebase/auth";
 
 export default function ComponentLogin() {
   const navigate = useNavigate();
 
   const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
+
+  useEffect(() => {
+    // Após redirecionamento, verifica se o usuário está logado
+    getRedirectResult(auth).then((result) => {
+      if (result && result.user) {
+        navigate("/admin");
+      }
+    });
+  }, [navigate]);
 
   const loginWithGoogle = async () => {
     try {
@@ -15,8 +26,8 @@ export default function ComponentLogin() {
         await signInWithRedirect(auth, provider);
       } else {
         await signInWithPopup(auth, provider);
+        navigate("/admin");
       }
-      navigate("/admin");
     } catch (error) {
       if (error instanceof Error) {
         alert("Erro ao fazer login: " + error.message);
