@@ -1,34 +1,9 @@
-import { useState, FormEvent } from "react";
+import { useState } from "react";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../../services/firebase";
 
-// Tipagem do formulário
-interface FormState {
-  nomeCompleto: string;
-  foto: string;
-  bio: string;
-  softSkills: string;
-  email: string;
-  telefone: string;
-  bairro: string;
-  cidade: string;
-  estado: string;
-  cep: string;
-  linkedin: string;
-  github: string;
-  instagram: string;
-  facebook: string;
-  telegram: string;
-  whatsapp: string;
-  curso: string;
-  instituicao: string;
-  anoConclusao: string;
-  nivel: string;
-  ativo: "sim" | "nao";
-}
-
 export default function FormProfile() {
-  const [form, setForm] = useState<FormState>({
+  const [form, setForm] = useState({
     nomeCompleto: "",
     foto: "",
     bio: "",
@@ -51,17 +26,14 @@ export default function FormProfile() {
     nivel: "",
     ativo: "sim"
   });
-
   const [mensagem, setMensagem] = useState("");
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
-  };
+  function handleInput(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+    const { name, value, type } = e.target;
+    setForm((prev) => ({ ...prev, [name]: type === "radio" ? value : value }));
+  }
 
-  const handleSubmit = async (e: FormEvent) => {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     try {
       await addDoc(collection(db, "perfil"), {
@@ -100,147 +72,130 @@ export default function FormProfile() {
       });
       setMensagem("Perfil atualizado com sucesso!");
     } catch (error) {
-      console.error(error);
       setMensagem("Erro ao atualizar perfil.");
     }
-  };
-
-  const Input = ({
-    label,
-    name,
-    type = "text"
-  }: {
-    label: string;
-    name: keyof FormState;
-    type?: string;
-  }) => (
-    <div className="flex flex-col gap-1">
-      <label className="font-semibold text-white">{label}</label>
-      <input
-        type={type}
-        name={name}
-        value={form[name]}
-        onChange={handleChange}
-        className="border px-3 py-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-300"
-      />
-    </div>
-  );
-
-  const Textarea = ({
-    label,
-    name
-  }: {
-    label: string;
-    name: keyof FormState;
-  }) => (
-    <div className="flex flex-col gap-1">
-      <label className="font-semibold text-white">{label}</label>
-      <textarea
-        name={name}
-        value={form[name]}
-        onChange={handleChange}
-        className="border px-3 py-2 rounded-md w-full h-24 focus:outline-none focus:ring-2 focus:ring-blue-300"
-      />
-    </div>
-  );
-
-  const FieldGroup = ({
-    title,
-    children
-  }: {
-    title: string;
-    children: React.ReactNode;
-  }) => (
-    <fieldset className="border border-white rounded-lg p-4">
-      <legend className="font-bold text-lg text-white px-2">{title}</legend>
-      <div className="grid gap-4 mt-2">{children}</div>
-    </fieldset>
-  );
+  }
 
   return (
     <div className="p-6 max-w-4xl mx-auto bg-gradient-to-r from-blue-900 via-blue-700 to-blue-400 rounded-lg shadow-lg">
       <h1 className="text-3xl font-bold mb-6 text-center text-white">Editar Perfil</h1>
-
       <form onSubmit={handleSubmit} className="grid gap-6">
-        <FieldGroup title="Perfil">
-          <Input label="Foto de Perfil (URL)" name="foto" type="url" />
-          <Input label="Nome Completo" name="nomeCompleto" />
-          <Textarea label="Bio / Resumo Profissional" name="bio" />
-          <Input label="Soft Skills" name="softSkills" />
-
-          <div className="flex gap-4 items-center">
-            <label className="font-semibold text-white">Usuário Ativo:</label>
-            <label className="text-white">
-              <input
-                type="radio"
-                name="ativo"
-                value="sim"
-                checked={form.ativo === "sim"}
-                onChange={handleChange}
-                className="mr-1"
-              />
-              Sim
-            </label>
-            <label className="text-white">
-              <input
-                type="radio"
-                name="ativo"
-                value="nao"
-                checked={form.ativo === "nao"}
-                onChange={handleChange}
-                className="mr-1"
-              />
-              Não
-            </label>
+        <fieldset className="border border-white rounded-lg p-4">
+          <legend className="font-bold text-lg text-white px-2">Perfil</legend>
+          <div className="grid gap-4 mt-2">
+            <div className="flex flex-col gap-1">
+              <label className="font-semibold text-white">Foto de Perfil (URL)</label>
+              <input type="url" name="foto" value={form.foto} onChange={handleInput} className="border px-3 py-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-300" />
+            </div>
+            <div className="flex flex-col gap-1">
+              <label className="font-semibold text-white">Nome Completo</label>
+              <input name="nomeCompleto" value={form.nomeCompleto} onChange={handleInput} className="border px-3 py-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-300" />
+            </div>
+            <div className="flex flex-col gap-1">
+              <label className="font-semibold text-white">Bio / Resumo Profissional</label>
+              <textarea name="bio" value={form.bio} onChange={handleInput} className="border px-3 py-2 rounded-md w-full h-24 focus:outline-none focus:ring-2 focus:ring-blue-300" />
+            </div>
+            <div className="flex flex-col gap-1">
+              <label className="font-semibold text-white">Soft Skills</label>
+              <input name="softSkills" value={form.softSkills} onChange={handleInput} className="border px-3 py-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-300" />
+            </div>
+            <div className="flex gap-4 items-center">
+              <label className="font-semibold text-white">Usuário Ativo:</label>
+              <label className="text-white">
+                <input type="radio" name="ativo" value="sim" checked={form.ativo === "sim"} onChange={handleInput} className="mr-1" /> Sim
+              </label>
+              <label className="text-white">
+                <input type="radio" name="ativo" value="nao" checked={form.ativo === "nao"} onChange={handleInput} className="mr-1" /> Não
+              </label>
+            </div>
           </div>
-        </FieldGroup>
-
-        <FieldGroup title="Contatos">
+        </fieldset>
+        <fieldset className="border border-white rounded-lg p-4">
+          <legend className="font-bold text-lg text-white px-2">Contatos</legend>
           <div className="grid md:grid-cols-2 gap-4">
-            <Input label="E-mail" name="email" type="email" />
-            <Input label="Telefone" name="telefone" />
+            <div className="flex flex-col gap-1">
+              <label className="font-semibold text-white">E-mail</label>
+              <input type="email" name="email" value={form.email} onChange={handleInput} className="border px-3 py-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-300" />
+            </div>
+            <div className="flex flex-col gap-1">
+              <label className="font-semibold text-white">Telefone</label>
+              <input name="telefone" value={form.telefone} onChange={handleInput} className="border px-3 py-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-300" />
+            </div>
           </div>
-        </FieldGroup>
-
-        <FieldGroup title="Endereço">
+        </fieldset>
+        <fieldset className="border border-white rounded-lg p-4">
+          <legend className="font-bold text-lg text-white px-2">Endereço</legend>
           <div className="grid md:grid-cols-4 gap-4">
-            <Input label="Bairro" name="bairro" />
-            <Input label="Cidade" name="cidade" />
-            <Input label="Estado" name="estado" />
-            <Input label="CEP" name="cep" />
+            <div className="flex flex-col gap-1">
+              <label className="font-semibold text-white">Bairro</label>
+              <input name="bairro" value={form.bairro} onChange={handleInput} className="border px-3 py-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-300" />
+            </div>
+            <div className="flex flex-col gap-1">
+              <label className="font-semibold text-white">Cidade</label>
+              <input name="cidade" value={form.cidade} onChange={handleInput} className="border px-3 py-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-300" />
+            </div>
+            <div className="flex flex-col gap-1">
+              <label className="font-semibold text-white">Estado</label>
+              <input name="estado" value={form.estado} onChange={handleInput} className="border px-3 py-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-300" />
+            </div>
+            <div className="flex flex-col gap-1">
+              <label className="font-semibold text-white">CEP</label>
+              <input name="cep" value={form.cep} onChange={handleInput} className="border px-3 py-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-300" />
+            </div>
           </div>
-        </FieldGroup>
-
-        <FieldGroup title="Redes Sociais">
+        </fieldset>
+        <fieldset className="border border-white rounded-lg p-4">
+          <legend className="font-bold text-lg text-white px-2">Redes Sociais</legend>
           <div className="grid md:grid-cols-3 gap-4">
-            <Input label="LinkedIn" name="linkedin" type="url" />
-            <Input label="GitHub" name="github" type="url" />
-            <Input label="Instagram" name="instagram" type="url" />
-            <Input label="Facebook" name="facebook" type="url" />
-            <Input label="Telegram" name="telegram" type="url" />
-            <Input label="WhatsApp" name="whatsapp" type="url" />
+            <div className="flex flex-col gap-1">
+              <label className="font-semibold text-white">LinkedIn</label>
+              <input type="url" name="linkedin" value={form.linkedin} onChange={handleInput} className="border px-3 py-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-300" />
+            </div>
+            <div className="flex flex-col gap-1">
+              <label className="font-semibold text-white">GitHub</label>
+              <input type="url" name="github" value={form.github} onChange={handleInput} className="border px-3 py-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-300" />
+            </div>
+            <div className="flex flex-col gap-1">
+              <label className="font-semibold text-white">Instagram</label>
+              <input type="url" name="instagram" value={form.instagram} onChange={handleInput} className="border px-3 py-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-300" />
+            </div>
+            <div className="flex flex-col gap-1">
+              <label className="font-semibold text-white">Facebook</label>
+              <input type="url" name="facebook" value={form.facebook} onChange={handleInput} className="border px-3 py-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-300" />
+            </div>
+            <div className="flex flex-col gap-1">
+              <label className="font-semibold text-white">Telegram</label>
+              <input type="url" name="telegram" value={form.telegram} onChange={handleInput} className="border px-3 py-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-300" />
+            </div>
+            <div className="flex flex-col gap-1">
+              <label className="font-semibold text-white">WhatsApp</label>
+              <input type="url" name="whatsapp" value={form.whatsapp} onChange={handleInput} className="border px-3 py-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-300" />
+            </div>
           </div>
-        </FieldGroup>
-
-        <FieldGroup title="Formação">
+        </fieldset>
+        <fieldset className="border border-white rounded-lg p-4">
+          <legend className="font-bold text-lg text-white px-2">Formação</legend>
           <div className="grid md:grid-cols-4 gap-4">
-            <Input label="Curso" name="curso" />
-            <Input label="Instituição" name="instituicao" />
-            <Input label="Ano de Conclusão" name="anoConclusao" type="number" />
-            <Input label="Nível" name="nivel" />
+            <div className="flex flex-col gap-1">
+              <label className="font-semibold text-white">Curso</label>
+              <input name="curso" value={form.curso} onChange={handleInput} className="border px-3 py-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-300" />
+            </div>
+            <div className="flex flex-col gap-1">
+              <label className="font-semibold text-white">Instituição</label>
+              <input name="instituicao" value={form.instituicao} onChange={handleInput} className="border px-3 py-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-300" />
+            </div>
+            <div className="flex flex-col gap-1">
+              <label className="font-semibold text-white">Ano de Conclusão</label>
+              <input type="number" name="anoConclusao" value={form.anoConclusao} onChange={handleInput} className="border px-3 py-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-300" />
+            </div>
+            <div className="flex flex-col gap-1">
+              <label className="font-semibold text-white">Nível</label>
+              <input name="nivel" value={form.nivel} onChange={handleInput} className="border px-3 py-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-300" />
+            </div>
           </div>
-        </FieldGroup>
-
-        <button
-          type="submit"
-          className="bg-white text-blue-800 py-3 rounded-md font-semibold hover:bg-blue-100 transition"
-        >
-          Salvar
-        </button>
-
-        {mensagem && (
-          <p className="text-center text-green-200 font-medium">{mensagem}</p>
-        )}
+        </fieldset>
+        <button type="submit" className="bg-white text-blue-800 py-3 rounded-md font-semibold hover:bg-blue-100 transition">Salvar</button>
+        {mensagem && <p className="text-center text-green-200 font-medium">{mensagem}</p>}
       </form>
     </div>
   );

@@ -6,12 +6,12 @@ import Profile from './pages/admin_profile.tsx';
 import Projects from './pages/admin_projects.tsx';
 import PrivateRoute from './components/privateRoutes.tsx';
 
+
 const App: React.FC = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
-
       {/* Rotas protegidas */}
       <Route
         path="/admin"
