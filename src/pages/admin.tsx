@@ -5,9 +5,8 @@ import AdminJumbotron from "../components/Admin/compJumbotron";
 const Admin: React.FC = () => {
   return (
     <>
-      <ComponentMenuAdmin pageName= "Página de Administração" />,
-      <AdminJumbotron userName="Geovane Carvalho"/>,
-    
+      <ComponentMenuAdmin pageName="Página de Administração" />
+      <AdminJumbotron userName="Geovane Carvalho" />
     </>
   );
 }
