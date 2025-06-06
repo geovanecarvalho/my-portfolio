@@ -16,6 +16,8 @@ export default function ComponentLogin() {
     getRedirectResult(auth).then((result) => {
       if (result && result.user) {
         navigate("/admin");
+      } else if (auth.currentUser) {
+        navigate("/admin");
       }
     });
   }, [navigate]);
