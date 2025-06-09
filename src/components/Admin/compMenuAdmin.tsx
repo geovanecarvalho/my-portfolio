@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Logo from "../../assets/icon.png";
-import ButtonLogout from "./compLogout";
+import ButtonLogout from "../Login/compLogout";
 
 interface Props {
   pageName: string;

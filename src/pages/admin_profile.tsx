@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import ComponentMenuAdmin from '../components/Admin/compMenuAdmin';
-import FormProfile from '../components/Admin/compFormProfile';
-import FormConferencia from '../components/Admin/compFormConferencia';
-import Modal from '../components/Admin/compModal';
-import DashboardProfile from '../components/Admin/compDashboardProfile';
-import DashboardTables from '../components/Admin/compDashboardTables';
+import FormProfile from '../components/Admin/AdminProfile/compFormProfile';
+import FormConferencia from '../components/Admin/AdminProfile/compFormConferencia';
+import Modal from '../components/Admin/AdminProfile/compModal';
+import DashboardProfile from '../components/Admin/AdminProfile/compDashboardProfile';
+import DashboardTables from '../components/Admin/AdminProfile/compDashboardTables';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../services/firebase';
 

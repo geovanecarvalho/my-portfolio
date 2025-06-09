@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { db } from "../../services/firebase";
+import { db } from "../../../services/firebase";
 
 export default function FormProfile() {
   const [form, setForm] = useState({
