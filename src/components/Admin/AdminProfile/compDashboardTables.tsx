@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../services/firebase";
+import { db } from "../../../services/firebase";
 
 interface ProfileRow {
   id: string;
