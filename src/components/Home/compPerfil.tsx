@@ -26,6 +26,7 @@ import {
   WhatsappLogo,
   Sparkle,
   NotePencil,
+  Globe,
 } from "@phosphor-icons/react";
 
 interface PerfilData {
@@ -234,12 +235,7 @@ const CompPerfil: React.FC = () => {
           {(Object.values(redes_sociais).some(Boolean)) && (
             <fieldset className="border-2 border-white rounded-xl px-4 py-3 bg-white/10">
               <legend className="font-semibold text-white px-2 flex items-center gap-2">
-                <LinkedinLogo size={22} color="#0a66c2" weight="fill" />
-                <GithubLogo size={22} color="#fff" weight="fill" />
-                <InstagramLogo size={22} color="#e1306c" weight="fill" />
-                <FacebookLogo size={22} color="#1877f3" weight="fill" />
-                <TelegramLogo size={22} color="#229ed9" weight="fill" />
-                <WhatsappLogo size={22} color="#25d366" weight="fill" />
+                <Globe size={22} color="#38bdf8" weight="fill" />
                 Redes Sociais
               </legend>
               <div className="flex flex-wrap gap-4 mt-2">
