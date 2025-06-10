@@ -102,7 +102,7 @@ const CompPerfil: React.FC = () => {
   return (
     <Fragment>
       {/* COLUNA CENTRALIZADA – avatar + nome + softskills + blocos */}
-      <div className="w-full flex flex-col items-center max-w-2xl mx-auto bg-gradient-to-r from-blue-900 via-blue-700 to-blue-900 p-8 rounded-3xl shadow-2xl border-2 border-blue-400">
+      <div className="w-full flex flex-col items-center max-w-4xl mx-auto bg-gradient-to-r from-blue-900 via-blue-700 to-blue-900 p-8 rounded-3xl shadow-2xl border-2 border-blue-400">
         {/* Foto / iniciais */}
         <div className="w-40 h-40 rounded-full bg-gray-200 flex items-center justify-center ring-4 ring-white shadow-lg overflow-hidden mx-auto">
           {pf.foto ? (
