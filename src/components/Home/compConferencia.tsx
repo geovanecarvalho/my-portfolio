@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../services/firebase";
+import { Globe, MapPin } from "@phosphor-icons/react";
 
 interface ConferenciaData {
   id: string;
@@ -36,35 +37,35 @@ const CompConferencia: React.FC = () => {
   if (conferencias.length === 0) return <div className="text-center text-gray-500 py-8">Nenhuma conferência encontrada.</div>;
 
   return (
-    <footer className="max-w-4xl mx-auto p-4 grid gap-8">
-      <div className="w-full bg-gradient-to-b from-gray-100 via-gray-200 to-gray-300 rounded-2xl shadow border border-blue-200 p-8 mb-8 animate-slide-down" style={{ margin: 20 }}>
-        <h4 className="text-xl font-bold text-blue-900 mb-6 text-center tracking-tight">Conferências e Comunidade</h4>
-        {conferencias.length === 0 ? (
-          <div className="text-center text-gray-500 py-8">Nenhuma conferência encontrada.</div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full justify-center items-stretch">
-            {conferencias.map((c) => (
-              <div key={c.id} className="bg-white/70 rounded-xl shadow border border-blue-200 p-4 flex flex-col items-center">
-                {c.imagem && (
-                  <img src={c.imagem} alt={c.nome} className="w-20 h-20 rounded-full object-cover border-4 border-blue-300 shadow mb-2" />
-                )}
-                <h5 className="text-base font-bold text-blue-800 mb-1 text-center">{c.nome}</h5>
-                <div className="w-full mb-1 text-sm">
-                  <span className="font-semibold text-blue-700">📍 Local:</span> <span className="text-gray-700">{c.local}</span>
-                </div>
-                <div className="w-full text-sm">
-                  <span className="font-semibold text-blue-700">🌐 Site:</span> {c.site ? (
-                    <a href={c.site} target="_blank" rel="noopener noreferrer" className="underline text-blue-700 break-all">{c.site}</a>
-                  ) : (
-                    <span className="text-gray-500">Não informado</span>
-                  )}
-                </div>
+    <section className="w-full flex flex-col items-center bg-gradient-to-br from-blue-700 via-blue-600 to-blue-450 rounded-[2rem] shadow-2xl p-8 mb-8 border-4 border-blue-300">
+      <h4 className="text-2xl font-extrabold text-white drop-shadow-lg mb-8 text-center tracking-tight font-inter">Conferências e Comunidade</h4>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 w-full justify-center items-stretch">
+        {conferencias.map((c) => (
+          <div key={c.id} className="bg-white/10 backdrop-blur-md rounded-2xl shadow-lg border-4 border-white/30 p-6 flex flex-col items-center min-h-[260px]">
+            {c.imagem && (
+              <div className="mb-3">
+                <img src={c.imagem} alt={c.nome} className="w-20 h-20 rounded-full object-cover border-4 border-blue-200 shadow-lg" />
               </div>
-            ))}
+            )}
+            <h5 className="text-lg font-bold text-white drop-shadow mb-2 text-center font-inter">{c.nome}</h5>
+            <div className="w-full mb-2 text-sm flex items-center justify-center gap-2">
+              <MapPin size={20} color="#38bdf8" weight="fill" />
+              <span className="font-semibold text-blue-100">Local:</span>
+              <span className="text-blue-50 text-justify">{c.local}</span>
+            </div>
+            <div className="w-full text-sm flex items-center justify-center gap-2">
+              <Globe size={20} color="#fbbf24" weight="fill" />
+              <span className="font-semibold text-blue-100">Site:</span>
+              {c.site ? (
+                <a href={c.site} target="_blank" rel="noopener noreferrer" className="underline text-blue-100 break-all hover:text-yellow-400 transition-colors">{c.site}</a>
+              ) : (
+                <span className="text-blue-200">Não informado</span>
+              )}
+            </div>
           </div>
-        )}
+        ))}
       </div>
-    </footer>
+    </section>
   );
 };
 

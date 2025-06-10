@@ -1,6 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../services/firebase";
+import {
+  Mail,
+  Phone,
+  MapPin,
+  GraduationCap,
+  Linkedin,
+  Github,
+  Instagram,
+  Facebook,
+  Send,
+  MessageCircle,
+} from "lucide-react";
+import {
+  UserCircle,
+  ChatsCircle,
+  MapPin as PhosphorMapPin,
+  GraduationCap as PhosphorGraduationCap,
+  LinkedinLogo,
+  GithubLogo,
+  InstagramLogo,
+  FacebookLogo,
+  TelegramLogo,
+  WhatsappLogo,
+  Sparkle,
+  NotePencil,
+} from "@phosphor-icons/react";
 
 interface PerfilData {
   id: string;
@@ -11,16 +37,8 @@ interface PerfilData {
     softSkills: string;
     ativo: boolean;
   };
-  contatos: {
-    email: string;
-    telefone: string;
-  };
-  endereco: {
-    bairro: string;
-    cidade: string;
-    estado: string;
-    cep: string;
-  };
+  contatos: { email: string; telefone: string };
+  endereco: { bairro: string; cidade: string; estado: string; cep: string };
   redes_sociais: {
     linkedin: string;
     github: string;
@@ -38,171 +56,260 @@ interface PerfilData {
 }
 
 const CompPerfil: React.FC = () => {
-  const [perfis, setPerfis] = useState<PerfilData[]>([]);
+  const [perfil, setPerfil] = useState<PerfilData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getDocs(collection(db, "perfil")).then((snapshot) => {
-      const rows: PerfilData[] = [];
-      snapshot.forEach((doc) => {
+    (async () => {
+      const snap = await getDocs(collection(db, "perfil"));
+      snap.forEach((doc) => {
         const data = doc.data();
-        rows.push({
-          id: doc.id,
-          perfil: data.perfil || {},
-          contatos: data.contatos || {},
-          endereco: data.endereco || {},
-          redes_sociais: data.redes_sociais || {},
-          formacao: data.formacao || {},
-        });
+        if (data.perfil?.ativo && !perfil) {
+          setPerfil({
+            id: doc.id,
+            perfil: data.perfil || {},
+            contatos: data.contatos || {},
+            endereco: data.endereco || {},
+            redes_sociais: data.redes_sociais || {},
+            formacao: data.formacao || {},
+          } as PerfilData);
+        }
       });
-      setPerfis(rows);
       setLoading(false);
-    });
+    })();
   }, []);
 
-  if (loading) return <div className="text-center text-blue-900 py-8">Carregando perfis...</div>;
-  // Mostrar apenas perfis ativos
-  const perfisAtivos = perfis.filter((p) => p.perfil.ativo);
-  if (perfisAtivos.length === 0) return <div className="text-center text-gray-500 py-8">Nenhum perfil ativo encontrado.</div>;
+  if (loading)
+    return (
+      <div className="text-center text-blue-900 py-4 animate-pulse">
+        Carregando perfil...
+      </div>
+    );
+  if (!perfil)
+    return (
+      <div className="text-center text-gray-600 py-4">
+        Nenhum perfil ativo encontrado.
+      </div>
+    );
+
+  const { perfil: pf, contatos, endereco, formacao, redes_sociais } = perfil;
+  const initials =
+    pf.nomeCompleto
+      ?.split(" ")
+      .map((n) => n[0])
+      .join("") ?? "";
 
   return (
-    <div className="max-w-4xl mx-auto p-4 grid gap-8">
-      {perfisAtivos.map((p, idx) => (
-        <div
-          key={p.id}
-          className={
-            `bg-gradient-to-r from-blue-400 via-blue-400 to-blue rounded-2xl shadow-xl border-2 border-blue-500 hover:shadow-2xl transition overflow-hidden flex flex-col items-center md:items-stretch animate-slide-card` +
-            (idx > 0 ? ' mt-2' : '')
-          }
-          style={{ animationDelay: `${idx * 80}ms` }}
-        >
-          {/* Card agrupando foto e nome */}
-          <div className="w-full flex flex-col items-center bg-gradient-to-b from-gray-100 via-gray-200 to-gray-300 rounded-2xl shadow border border-blue-200 p-6 mb-4 animate-slide-down"
-            style={{ margin: 20 }}
-          >
-            <div className="flex flex-col items-center w-full">
-              {p.perfil.foto && (
-                <div className="flex justify-center w-full mb-4">
-                  <img
-                    src={p.perfil.foto}
-                    alt={p.perfil.nomeCompleto}
-                    className="rounded-full object-cover border-4 border-blue-300 shadow transition-transform duration-700 ease-out hover:scale-105"
-                    style={{
-                      width: '6rem', // base: 96px
-                      height: '6rem',
-                      maxWidth: '100%',
-                    }}
-                    sizes="(max-width: 640px) 96px, (max-width: 1024px) 128px, 160px"
-                    srcSet={
-                      p.perfil.foto + ' 96w,' +
-                      p.perfil.foto + ' 128w,' +
-                      p.perfil.foto + ' 160w'
-                    }
-                  />
-                </div>
-              )}
-              <div className="w-full flex justify-center">
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-blue-900 mb-0 text-center tracking-tight transition-all duration-700 ease-out hover:text-blue-600 hover:scale-105">
-                  {p.perfil.nomeCompleto}
-                </h2>
-              </div>
-            </div>
-          </div>
-          {/* Dados agrupados */}
-          <div className="flex-1 flex flex-col md:flex-row md:flex-wrap gap-4 w-full p-4">
-            {/* Bio - ocupa toda a linha */}
-            <div className="w-full bg-white/70 rounded-xl shadow border border-blue-200 p-4 mb-4">
-              <div className="border-b border-blue-200 mb-2 pb-1">
-                <h3 className="font-semibold text-blue-700 flex items-center gap-2 text-lg"><span>📝</span>Bio</h3>
-              </div>
-              <p className="text-gray-700 mb-2 whitespace-pre-line">{p.perfil.bio}</p>
-            </div>
-            {/* Soft Skills - ocupa toda a linha */}
-            <div className="w-full bg-white/70 rounded-xl shadow border border-blue-200 p-4 mb-4">
-              <div className="border-b border-blue-200 mb-2 pb-1">
-                <h4 className="font-semibold text-blue-700 flex items-center gap-2 text-base"><span>💡</span>Soft Skills</h4>
-              </div>
-              <p className="text-gray-700">{p.perfil.softSkills}</p>
-            </div>
-            {/* Contatos */}
-            <div className="flex-1 min-w-[260px] bg-white/70 rounded-xl shadow border border-blue-200 p-4">
-              <div className="border-b border-blue-200 mb-2 pb-1">
-                <h3 className="font-semibold text-blue-700 flex items-center gap-2 text-lg"><span>📞</span>Contatos</h3>
-              </div>
-              <ul className="text-gray-700 space-y-1">
-                <li><b>Email:</b> <a href={`mailto:${p.contatos.email}`} className="underline text-blue-700">{p.contatos.email}</a></li>
-                <li><b>Telefone:</b> <a href={`tel:${p.contatos.telefone}`} className="underline text-blue-700">{p.contatos.telefone}</a></li>
-              </ul>
-            </div>
-            {/* Endereço */}
-            <div className="flex-1 min-w-[260px] bg-white/70 rounded-xl shadow border border-blue-200 p-4">
-              <div className="border-b border-blue-200 mb-2 pb-1">
-                <h3 className="font-semibold text-blue-700 flex items-center gap-2 text-lg"><span>🏠</span>Endereço</h3>
-              </div>
-              <ul className="text-gray-700 space-y-1">
-                <li><b>Bairro:</b> {p.endereco.bairro}</li>
-                <li><b>Cidade:</b> {p.endereco.cidade}</li>
-                <li><b>Estado:</b> {p.endereco.estado}</li>
-                <li><b>CEP:</b> {p.endereco.cep}</li>
-              </ul>
-            </div>
-            {/* Redes Sociais */}
-            <div className="flex-1 min-w-[260px] bg-white/70 rounded-xl shadow border border-blue-200 p-4">
-              <div className="border-b border-blue-200 mb-2 pb-1">
-                <h3 className="font-semibold text-blue-700 flex items-center gap-2 text-lg"><span>🌐</span>Redes Sociais</h3>
-              </div>
-              <ul className="flex flex-wrap gap-3 text-blue-800">
-                {p.redes_sociais.linkedin && <li><a href={p.redes_sociais.linkedin} target="_blank" rel="noopener noreferrer" className="underline flex items-center gap-1">in</a></li>}
-                {p.redes_sociais.github && <li><a href={p.redes_sociais.github} target="_blank" rel="noopener noreferrer" className="underline flex items-center gap-1">GitHub</a></li>}
-                {p.redes_sociais.instagram && <li><a href={p.redes_sociais.instagram} target="_blank" rel="noopener noreferrer" className="underline flex items-center gap-1">Instagram</a></li>}
-                {p.redes_sociais.facebook && <li><a href={p.redes_sociais.facebook} target="_blank" rel="noopener noreferrer" className="underline flex items-center gap-1">Facebook</a></li>}
-                {p.redes_sociais.telegram && <li><a href={p.redes_sociais.telegram} target="_blank" rel="noopener noreferrer" className="underline flex items-center gap-1">Telegram</a></li>}
-                {p.redes_sociais.whatsapp && <li><a href={p.redes_sociais.whatsapp} target="_blank" rel="noopener noreferrer" className="underline flex items-center gap-1">WhatsApp</a></li>}
-              </ul>
-            </div>
-            {/* Formação */}
-            <div className="flex-1 min-w-[260px] bg-white/70 rounded-xl shadow border border-blue-200 p-4">
-              <div className="border-b border-blue-200 mb-2 pb-1">
-                <h3 className="font-semibold text-blue-700 flex items-center gap-2 text-lg"><span>🎓</span>Formação</h3>
-              </div>
-              <ul className="text-gray-700 space-y-1">
-                <li><b>Curso:</b> {p.formacao.curso}</li>
-                <li><b>Instituição:</b> {p.formacao.instituicao}</li>
-                <li><b>Ano de Conclusão:</b> {p.formacao.anoConclusao}</li>
-                <li><b>Nível:</b> {p.formacao.nivel}</li>
-              </ul>
-            </div>
-          </div>
+    <Fragment>
+      {/* COLUNA CENTRALIZADA – avatar + nome + softskills + blocos */}
+      <div className="w-full flex flex-col items-center max-w-2xl mx-auto bg-gradient-to-r from-blue-900 via-blue-700 to-blue-900 p-8 rounded-3xl shadow-2xl border-2 border-blue-400">
+        {/* Foto / iniciais */}
+        <div className="w-40 h-40 rounded-full bg-gray-200 flex items-center justify-center ring-4 ring-white shadow-lg overflow-hidden mx-auto">
+          {pf.foto ? (
+            <img
+              src={pf.foto}
+              alt={pf.nomeCompleto}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <span className="text-4xl font-bold text-white">
+              {initials}
+            </span>
+          )}
         </div>
-      ))}
-    </div>
+        {/* Nome centralizado */}
+        <h2 className="mt-4 text-2xl md:text-3xl font-extrabold text-white text-center drop-shadow-lg shadow-blue-1200 font-[\'InterVariable\'] tracking-tight">
+          {pf.nomeCompleto}
+        </h2>
+        {/* BIO abaixo do nome */}
+        {pf.bio && (
+          <fieldset className="border-2 border-white rounded-xl px-4 py-3 bg-white/10 mt-4 w-full">
+            <legend className="font-semibold text-white px-2 flex items-center gap-2">
+              <NotePencil size={22} color="#fbbf24" weight="fill" /> Bio
+            </legend>
+            <p className="text-white whitespace-pre-line mt-2 text-justify" style={{ textIndent: '2em' }}>{pf.bio}</p>
+          </fieldset>
+        )}
+        {/* Soft skills como badges */}
+        {pf.softSkills && (
+          <fieldset className="border-2 border-white rounded-xl px-3 py-2 mt-4 w-full bg-white/10 flex flex-col items-center">
+            <legend className="font-semibold text-white px-2 flex items-center gap-2">
+              <Sparkle size={22} color="#38bdf8" weight="fill" /> Soft Skills
+            </legend>
+            <div className="flex flex-wrap gap-2 justify-center mt-1 text-justify">
+              {pf.softSkills.split(/[,;]+/).map((s) => (
+                <span
+                  key={s.trim()}
+                  className="border border-white rounded-lg bg-white/20 text-white px-[10px] py-[5px] text-sm font-medium"
+                  style={{ padding: '5px' }}
+                >
+                  {s.trim()}
+                </span>
+              ))}
+            </div>
+          </fieldset>
+        )}
+        {/* Blocos de dados abaixo da bio/softskills */}
+        <div className="w-full flex flex-col gap-6 mt-4">
+          {/* CONTATOS */}
+          {(contatos.email || contatos.telefone) && (
+            <fieldset className="border-2 border-white rounded-xl px-4 py-3 bg-white/10">
+              <legend className="font-semibold text-white px-2 flex items-center gap-2">
+                <ChatsCircle size={22} color="#34d399" weight="fill" /> Contatos
+              </legend>
+              <ul className="text-white space-y-1 text-sm mt-2">
+                {contatos.email && (
+                  <li className="flex items-center gap-1">
+                    <Mail size={16} className="text-white" />
+                    <a
+                      href={`mailto:${contatos.email}`}
+                      className="underline text-white hover:text-blue-200"
+                    >
+                      {contatos.email}
+                    </a>
+                  </li>
+                )}
+                {contatos.telefone && (
+                  <li className="flex items-center gap-1">
+                    <Phone size={16} className="text-white" />
+                    <a
+                      href={`tel:${contatos.telefone}`}
+                      className="underline text-white hover:text-blue-200"
+                    >
+                      {contatos.telefone}
+                    </a>
+                  </li>
+                )}
+              </ul>
+            </fieldset>
+          )}
+          {/* ENDEREÇO */}
+          {(endereco.bairro || endereco.cidade || endereco.estado || endereco.cep) && (
+            <fieldset className="border-2 border-white rounded-xl px-4 py-3 bg-white/10">
+              <legend className="font-semibold text-white px-2 flex items-center gap-2">
+                <PhosphorMapPin size={22} color="#f472b6" weight="fill" /> Endereço
+              </legend>
+              <div className="text-white text-sm mt-2 space-y-1">
+                {endereco.bairro && (
+                  <div><span className="font-bold">Bairro:</span> {endereco.bairro}</div>
+                )}
+                {endereco.cidade && (
+                  <div><span className="font-bold">Cidade:</span> {endereco.cidade}</div>
+                )}
+                {endereco.estado && (
+                  <div><span className="font-bold">Estado:</span> {endereco.estado}</div>
+                )}
+                {endereco.cep && (
+                  <div><span className="font-bold">CEP:</span> {endereco.cep}</div>
+                )}
+              </div>
+            </fieldset>
+          )}
+          {/* FORMAÇÃO */}
+          {(formacao.curso ||
+            formacao.instituicao ||
+            formacao.anoConclusao ||
+            formacao.nivel) && (
+            <fieldset className="border-2 border-white rounded-xl px-4 py-3 bg-white/10">
+              <legend className="font-semibold text-white px-2 flex items-center gap-2">
+                <PhosphorGraduationCap size={22} color="#facc15" weight="fill" /> Formação
+              </legend>
+              <div className="text-white text-sm mt-2 space-y-1">
+                {formacao.curso && (
+                  <div><span className="font-bold">Curso:</span> {formacao.curso}</div>
+                )}
+                {formacao.instituicao && (
+                  <div><span className="font-bold">Instituição:</span> {formacao.instituicao}</div>
+                )}
+                {formacao.nivel && (
+                  <div><span className="font-bold">Nível:</span> {formacao.nivel}</div>
+                )}
+                {formacao.anoConclusao && (
+                  <div><span className="font-bold">Conclusão:</span> {formacao.anoConclusao}</div>
+                )}
+              </div>
+            </fieldset>
+          )}
+          {/* REDES SOCIAIS */}
+          {(Object.values(redes_sociais).some(Boolean)) && (
+            <fieldset className="border-2 border-white rounded-xl px-4 py-3 bg-white/10">
+              <legend className="font-semibold text-white px-2 flex items-center gap-2">
+                <LinkedinLogo size={22} color="#0a66c2" weight="fill" />
+                <GithubLogo size={22} color="#fff" weight="fill" />
+                <InstagramLogo size={22} color="#e1306c" weight="fill" />
+                <FacebookLogo size={22} color="#1877f3" weight="fill" />
+                <TelegramLogo size={22} color="#229ed9" weight="fill" />
+                <WhatsappLogo size={22} color="#25d366" weight="fill" />
+                Redes Sociais
+              </legend>
+              <div className="flex flex-wrap gap-4 mt-2">
+                {redes_sociais.linkedin && (
+                  <a
+                    href={redes_sociais.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white hover:text-blue-200 flex items-center gap-1"
+                  >
+                    <LinkedinLogo size={18} color="#0a66c2" weight="fill" /> LinkedIn
+                  </a>
+                )}
+                {redes_sociais.github && (
+                  <a
+                    href={redes_sociais.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white hover:text-blue-200 flex items-center gap-1"
+                  >
+                    <GithubLogo size={18} color="#fff" weight="fill" /> GitHub
+                  </a>
+                )}
+                {redes_sociais.instagram && (
+                  <a
+                    href={redes_sociais.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white hover:text-blue-200 flex items-center gap-1"
+                  >
+                    <InstagramLogo size={18} color="#e1306c" weight="fill" /> Instagram
+                  </a>
+                )}
+                {redes_sociais.facebook && (
+                  <a
+                    href={redes_sociais.facebook}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white hover:text-blue-200 flex items-center gap-1"
+                  >
+                    <FacebookLogo size={18} color="#1877f3" weight="fill" /> Facebook
+                  </a>
+                )}
+                {redes_sociais.telegram && (
+                  <a
+                    href={redes_sociais.telegram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white hover:text-blue-200 flex items-center gap-1"
+                  >
+                    <TelegramLogo size={18} color="#229ed9" weight="fill" /> Telegram
+                  </a>
+                )}
+                {redes_sociais.whatsapp && (
+                  <a
+                    href={redes_sociais.whatsapp}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white hover:text-blue-200 flex items-center gap-1"
+                  >
+                    <WhatsappLogo size={18} color="#25d366" weight="fill" /> WhatsApp
+                  </a>
+                )}
+              </div>
+            </fieldset>
+          )}
+        </div>
+      </div>
+    </Fragment>
   );
 };
 
 export default CompPerfil;
-
-/* Tailwind custom animations (add to your global CSS if not present):
-@layer utilities {
-  .animate-slide-down {
-    animation: slideDown 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .animate-slide-up {
-    animation: slideUp 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .animate-slide-card {
-    animation: slideCard 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  @keyframes slideDown {
-    0% { opacity: 0; transform: translateY(-40px); }
-    100% { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes slideUp {
-    0% { opacity: 0; transform: translateY(40px); }
-    100% { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes slideCard {
-    0% { opacity: 0; transform: translateY(60px) scale(0.98); }
-    100% { opacity: 1; transform: translateY(0) scale(1); }
-  }
-}
-*/

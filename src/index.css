@@ -2,3 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "@fontsource-variable/inter/index.css";
+@import "@fontsource-variable/roboto-flex/index.css";
+
+body {
+  font-family: 'InterVariable', 'RobotoFlexVariable', 'Inter', 'Roboto', Arial, sans-serif;
+}
+

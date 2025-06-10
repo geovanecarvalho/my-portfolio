@@ -67,40 +67,40 @@ const CompProjetos: React.FC = () => {
   if (projetos.length === 0) return <div className="text-center text-gray-500 py-8">Nenhum projeto encontrado.</div>;
 
   return (
-    <div className="max-w-4xl mx-auto p-4 grid gap-8">
-      <div className="w-full bg-gradient-to-b from-gray-100 via-gray-200 to-gray-300 rounded-2xl shadow border border-blue-200 p-8 mb-8 animate-slide-down" style={{ margin: 20 }}>
-        <h4 className="text-xl font-bold text-blue-900 mb-6 text-center tracking-tight">Projetos</h4>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full justify-center items-stretch">
+    <div className="max-w-4xl mx-auto p-4 flex flex-col items-center">
+      <div className="w-full bg-gradient-to-r from-blue-900 via-blue-700 to-blue-900 rounded-3xl shadow-2xl border-2 border-blue-400 p-8 mb-8 animate-slide-down">
+        <h4 className="text-xl font-bold text-white mb-6 text-center tracking-tight drop-shadow-lg">Projetos</h4>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full justify-center items-center">
           {projetos.map((p, idx) => (
-            <div key={p.id} className="bg-white/70 rounded-xl shadow border border-blue-200 p-4 flex flex-col items-center animate-slide-card" style={{ animationDelay: `${idx * 80}ms` }}>
+            <div key={p.id} className="bg-white/10 rounded-xl shadow border-2 border-white p-4 flex flex-col items-center animate-slide-card" style={{ animationDelay: `${idx * 80}ms` }}>
               {p.imagemCapa && (
                 <img src={p.imagemCapa} alt={p.nome} className="w-24 h-24 rounded-lg object-cover border-4 border-blue-300 shadow mb-2" />
               )}
               {p.gifPreview && (
                 <img src={p.gifPreview} alt={p.nome + ' preview'} className="w-24 h-24 rounded-lg object-cover border-2 border-blue-200 shadow mb-2" />
               )}
-              <h5 className="text-base font-bold text-blue-800 mb-1 text-center">{p.nome}</h5>
+              <h5 className="text-base font-bold text-white mb-1 text-center drop-shadow">{p.nome}</h5>
               <div className="w-full mb-1 text-sm">
-                <span className="font-semibold text-blue-700">📝 Descrição:</span> <span className="text-gray-700">{p.descricao}</span>
+                <span className="font-semibold text-blue-200">📝 Descrição:</span> <span className="text-white/90">{p.descricao}</span>
               </div>
               <div className="w-full mb-1 text-sm">
-                <span className="font-semibold text-blue-700">🚀 Tecnologias:</span> <span className="text-gray-700">{p.tecnologias.join(", ")}</span>
+                <span className="font-semibold text-blue-200">🚀 Tecnologias:</span> <span className="text-white/90">{p.tecnologias.join(", ")}</span>
               </div>
               <div className="w-full mb-1 text-sm">
-                <span className="font-semibold text-blue-700">📅 Publicação:</span> <span className="text-gray-700">{formatDate(p.dataPublicacao)}</span>
+                <span className="font-semibold text-blue-200">📅 Publicação:</span> <span className="text-white/90">{formatDate(p.dataPublicacao)}</span>
               </div>
               <div className="w-full mb-1 text-sm">
-                <span className="font-semibold text-blue-700">🔖 Status:</span> <span className="text-gray-700">{p.status}</span>
+                <span className="font-semibold text-blue-200">🔖 Status:</span> <span className="text-white/90">{p.status}</span>
               </div>
               <div className="w-full mb-1 text-sm">
-                <span className="font-semibold text-blue-700">🌟 Destaque:</span> <span className="text-gray-700">{p.destaque ? "Sim" : "Não"}</span>
+                <span className="font-semibold text-blue-200">🌟 Destaque:</span> <span className="text-white/90">{p.destaque ? "Sim" : "Não"}</span>
               </div>
               <div className="w-full flex flex-wrap gap-2 mt-2 justify-center">
-                {p.linkDetalhes && <a href={p.linkDetalhes} target="_blank" rel="noopener noreferrer" className="underline text-blue-700 text-xs">Detalhes</a>}
-                {p.linkRepositorio && <a href={p.linkRepositorio} target="_blank" rel="noopener noreferrer" className="underline text-blue-700 text-xs">Repositório</a>}
-                {p.linkDemo && <a href={p.linkDemo} target="_blank" rel="noopener noreferrer" className="underline text-blue-700 text-xs">Demo</a>}
+                {p.linkDetalhes && <a href={p.linkDetalhes} target="_blank" rel="noopener noreferrer" className="underline text-blue-200 text-xs">Detalhes</a>}
+                {p.linkRepositorio && <a href={p.linkRepositorio} target="_blank" rel="noopener noreferrer" className="underline text-blue-200 text-xs">Repositório</a>}
+                {p.linkDemo && <a href={p.linkDemo} target="_blank" rel="noopener noreferrer" className="underline text-blue-200 text-xs">Demo</a>}
               </div>
-              <div className="w-full mt-2 text-xs text-gray-500 text-center">
+              <div className="w-full mt-2 text-xs text-blue-100 text-center">
                 <div><b>Criado em:</b> {formatDate(p.created_at)}</div>
                 <div><b>Atualizado em:</b> {formatDate(p.updated_at)}</div>
               </div>
