@@ -85,7 +85,8 @@ const CompConferencia: React.FC = () => {
                     rel="noopener noreferrer"
                     className="underline text-blue-100 break-all hover:text-yellow-400 transition-colors"
                   >
-                    {c.site}
+                    Acessar Link
+          
                   </a>
                 ) : (
                   <span className="text-blue-200">Não informado</span>

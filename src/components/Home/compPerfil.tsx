@@ -104,10 +104,10 @@ const CompPerfil: React.FC = () => {
     <Fragment>
       {/* COLUNA CENTRALIZADA – avatar + nome + softskills + blocos */}
 
-<div className="animate-fade-up animate-thrice animate-ease-in animate-alternate w-full flex flex-col items-center max-w-7xl mx-auto bg-gradient-to-r from-blue-900 via-blue-700 to-blue-900 p-8 rounded-3xl shadow-2xl border-2 border-blue-400">
+<div className="w-full flex flex-col items-center max-w-7xl mx-auto bg-gradient-to-r from-blue-900 via-blue-700 to-blue-900 p-8 rounded-3xl shadow-2xl border-2 border-blue-400">
 
         {/* Foto / iniciais */}
-        <div className="w-40 h-40 rounded-full bg-gray-200 flex items-center justify-center ring-4 ring-white shadow-lg overflow-hidden mx-auto">
+        <div className="w-40 h-40 rounded-full bg-gray-200 flex items-center justify-center ring-4 ring-blue-200/60 shadow-lg overflow-hidden mx-auto">
           {pf.foto ? (
             <img
               src={pf.foto}
@@ -128,7 +128,7 @@ const CompPerfil: React.FC = () => {
         
         {/* BIO abaixo do nome */}
         {pf.bio && (
-          <fieldset className="border-2 border-white rounded-xl px-4 py-3 bg-white/10 mt-4 w-full">
+          <fieldset className="border-2 border-blue-200/60 rounded-xl px-4 py-3 bg-white/10 mt-4 w-full">
             <legend className="font-semibold text-white px-2 flex items-center gap-2">
               <NotePencil size={22} color="#fbbf24" weight="fill" /> Bio
             </legend>
@@ -137,7 +137,7 @@ const CompPerfil: React.FC = () => {
         )}
         {/* Soft skills como badges */}
         {pf.softSkills && (
-          <fieldset className="border-2 border-white rounded-xl px-3 py-2 mt-4 w-full bg-white/10 flex flex-col items-center">
+          <fieldset className="border-2 border-blue-200/60 rounded-xl px-3 py-2 mt-4 w-full bg-white/10 flex flex-col items-center">
             <legend className="font-semibold text-white px-2 flex items-center gap-2">
               <Sparkle size={22} color="#38bdf8" weight="fill" /> Soft Skills
             </legend>
@@ -145,7 +145,7 @@ const CompPerfil: React.FC = () => {
               {pf.softSkills.split(/[,;]+/).map((s) => (
                 <span
                   key={s.trim()}
-                  className="border border-white rounded-lg bg-white/20 text-white px-[10px] py-[5px] text-sm font-medium"
+                  className="border-2 border-blue-200/60 rounded-lg bg-white/20 text-white px-[10px] py-[5px] text-sm font-medium"
                   style={{ padding: '5px' }}
                 >
                   {s.trim()}
@@ -158,7 +158,7 @@ const CompPerfil: React.FC = () => {
         <div className="w-full flex flex-col gap-6 mt-4">
           {/* CONTATOS */}
           {(contatos.email || contatos.telefone) && (
-            <fieldset className="border-2 border-white rounded-xl px-4 py-3 bg-white/10">
+            <fieldset className="border-2 border-blue-200/60 rounded-xl px-4 py-3 bg-white/10">
               <legend className="font-semibold text-white px-2 flex items-center gap-2">
                 <ChatsCircle size={22} color="#34d399" weight="fill" /> Contatos
               </legend>
@@ -190,7 +190,7 @@ const CompPerfil: React.FC = () => {
           )}
           {/* ENDEREÇO */}
           {(endereco.bairro || endereco.cidade || endereco.estado || endereco.cep) && (
-            <fieldset className="border-2 border-white rounded-xl px-4 py-3 bg-white/10">
+            <fieldset className="border-2 border-blue-200/60 rounded-xl px-4 py-3 bg-white/10">
               <legend className="font-semibold text-white px-2 flex items-center gap-2">
                 <PhosphorMapPin size={22} color="#f472b6" weight="fill" /> Endereço
               </legend>
@@ -215,7 +215,7 @@ const CompPerfil: React.FC = () => {
             formacao.instituicao ||
             formacao.anoConclusao ||
             formacao.nivel) && (
-            <fieldset className="border-2 border-white rounded-xl px-4 py-3 bg-white/10">
+            <fieldset className="border-2 border-blue-200/60 rounded-xl px-4 py-3 bg-white/10">
               <legend className="font-semibold text-white px-2 flex items-center gap-2">
                 <PhosphorGraduationCap size={22} color="#facc15" weight="fill" /> Formação
               </legend>
@@ -237,7 +237,7 @@ const CompPerfil: React.FC = () => {
           )}
           {/* REDES SOCIAIS */}
           {(Object.values(redes_sociais).some(Boolean)) && (
-            <fieldset className="border-2 border-white rounded-xl px-4 py-3 bg-white/10">
+            <fieldset className="border-2 border-blue-200/60 rounded-xl px-4 py-3 bg-white/10">
               <legend className="font-semibold text-white px-2 flex items-center gap-2">
                 <Globe size={22} color="#38bdf8" weight="fill" />
                 Redes Sociais
