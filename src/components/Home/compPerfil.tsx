@@ -103,7 +103,9 @@ const CompPerfil: React.FC = () => {
   return (
     <Fragment>
       {/* COLUNA CENTRALIZADA – avatar + nome + softskills + blocos */}
-      <div className="w-full flex flex-col items-center max-w-4xl mx-auto bg-gradient-to-r from-blue-900 via-blue-700 to-blue-900 p-8 rounded-3xl shadow-2xl border-2 border-blue-400">
+
+<div className="animate-fade-up animate-thrice animate-ease-in animate-alternate w-full flex flex-col items-center max-w-7xl mx-auto bg-gradient-to-r from-blue-900 via-blue-700 to-blue-900 p-8 rounded-3xl shadow-2xl border-2 border-blue-400">
+
         {/* Foto / iniciais */}
         <div className="w-40 h-40 rounded-full bg-gray-200 flex items-center justify-center ring-4 ring-white shadow-lg overflow-hidden mx-auto">
           {pf.foto ? (
@@ -119,9 +121,11 @@ const CompPerfil: React.FC = () => {
           )}
         </div>
         {/* Nome centralizado */}
-        <h2 className="mt-4 text-2xl md:text-3xl font-extrabold text-white text-center drop-shadow-lg shadow-blue-1200 font-[\'InterVariable\'] tracking-tight">
-          {pf.nomeCompleto}
+        <h2 className="mt-8 text-2xl md:text-3xl font-extrabold text-white text-center drop-shadow-lg tracking-tight font-inter">
+            {pf.nomeCompleto}
+          
         </h2>
+        
         {/* BIO abaixo do nome */}
         {pf.bio && (
           <fieldset className="border-2 border-white rounded-xl px-4 py-3 bg-white/10 mt-4 w-full">
@@ -191,14 +195,14 @@ const CompPerfil: React.FC = () => {
                 <PhosphorMapPin size={22} color="#f472b6" weight="fill" /> Endereço
               </legend>
               <div className="text-white text-sm mt-2 space-y-1">
-                {endereco.bairro && (
-                  <div><span className="font-bold">Bairro:</span> {endereco.bairro}</div>
-                )}
-                {endereco.cidade && (
-                  <div><span className="font-bold">Cidade:</span> {endereco.cidade}</div>
-                )}
                 {endereco.estado && (
                   <div><span className="font-bold">Estado:</span> {endereco.estado}</div>
+                )}
+                  {endereco.cidade && (
+                    <div><span className="font-bold">Cidade:</span> {endereco.cidade}</div>
+                  )}
+                {endereco.bairro && (
+                  <div><span className="font-bold">Bairro:</span> {endereco.bairro}</div>
                 )}
                 {endereco.cep && (
                   <div><span className="font-bold">CEP:</span> {endereco.cep}</div>
