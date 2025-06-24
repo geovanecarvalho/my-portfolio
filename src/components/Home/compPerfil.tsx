@@ -34,6 +34,7 @@ interface PerfilData {
   perfil: {
     foto: string;
     nomeCompleto: string;
+    tituloProfissao: string;
     bio: string;
     softSkills: string;
     ativo: boolean;
@@ -104,7 +105,7 @@ const CompPerfil: React.FC = () => {
     <Fragment>
       {/* COLUNA CENTRALIZADA – avatar + nome + softskills + blocos */}
 
-<div className="w-full flex flex-col items-center max-w-7xl mx-auto bg-gradient-to-r from-blue-900 via-blue-700 to-blue-900 p-8 rounded-3xl shadow-2xl border-2 border-blue-400">
+<div className="w-full flex flex-col items-center max-w-7xl mx-auto bg-gradient-to-r from-blue-900 via-blue-700 to-blue-900 p-8 rounded-3xl shadow-2xl border-2 border-blue-300 shadow-[0_0_24px_4px_#38bdf8]">
 
         {/* Foto / iniciais */}
         <div className="w-40 h-40 rounded-full bg-gray-200 flex items-center justify-center ring-4 ring-blue-200/60 shadow-lg overflow-hidden mx-auto">
@@ -125,6 +126,10 @@ const CompPerfil: React.FC = () => {
             {pf.nomeCompleto}
           
         </h2>
+        <span className="glow-blink text-base md:text-lg text-blue-200 text-center block mt-1 drop-shadow-[0_0_8px_#38bdf8] flex items-center justify-center gap-2">
+  <Sparkle size={20} weight="fill" className="text-blue-300 drop-shadow-[0_0_6px_#38bdf8]" />
+  {pf.tituloProfissao || "Profissão não informada"}
+</span>
         
         {/* BIO abaixo do nome */}
         {pf.bio && (

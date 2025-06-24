@@ -10,3 +10,16 @@ body {
   font-family: 'InterVariable', 'RobotoFlexVariable', 'Inter', 'Roboto', Arial, sans-serif;
 }
 
+@keyframes glow-blink {
+  0%, 100% {
+    filter: drop-shadow(0 0 8px #38bdf8);
+    opacity: 1;
+  }
+  50% {
+    filter: drop-shadow(0 0 16px #38bdf8);
+    opacity: 0.7;
+  }
+}
+.glow-blink {
+  animation: glow-blink 2.0s infinite alternate;
+}

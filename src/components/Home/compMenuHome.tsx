@@ -26,15 +26,38 @@ const ComponentMenuHome = ({ pageName }: Props) => {
     setIsMenuOpen(false); // fecha o menu após logout
   };
 
+  // Para links de navegação SPA
   const isActive = (path: string) => location.pathname === path;
-
   const linkClasses = (path: string) =>
-    `transition hover:text-blue-200 ${
-      isActive(path) ? "text-orange-400 font-bold underline" : "text-white"
-    }`;
+    `transition cursor-pointer px-2 py-1 rounded 
+     hover:text-blue-200 hover:drop-shadow-[0_0_8px_#38bdf8] 
+     ${
+       isActive(path)
+         ? "text-orange-400 font-bold underline"
+         : "text-white"
+     }`;
+
+  // Para links âncora (scroll suave)
+  const anchorClasses = (hash: string) =>
+    `transition cursor-pointer px-2 py-1 rounded 
+     hover:text-blue-200 hover:drop-shadow-[0_0_8px_#38bdf8] 
+     ${
+       window.location.hash === hash
+         ? "text-orange-400 font-bold underline"
+         : "text-white"
+     }`;
+
+  // Scroll suave para âncoras sem recarregar a página
+  const scrollToSection = (id: string) => {
+    const el = document.getElementById(id.replace("#", ""));
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+      setIsMenuOpen(false);
+    }
+  };
 
   return (
-    <nav className="bg-gradient-to-r from-blue-900 via-blue-700 to-blue-400 text-white p-4 shadow-md">
+    <nav className="fixed top-0 left-0 w-full z-50 bg-gradient-to-r from-blue-900 via-blue-700 to-blue-400 text-white p-4 border-mb-2 border-blue-300 shadow-[0_0_24px_4px_#38bdf8]">
       <div className="flex justify-between items-center w-full px-4 py-3">
         {/* Logo e nome */}
         <div className="flex items-center space-x-2 text-xl font-bold">
@@ -56,11 +79,26 @@ const ComponentMenuHome = ({ pageName }: Props) => {
             isMenuOpen ? "flex" : "hidden"
           } md:flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6 absolute md:static top-16 right-4 bg-blue-800 md:bg-transparent p-4 md:p-0 rounded-lg md:rounded-none shadow-md md:shadow-none z-50`}
         >
+          {/* Links âncora para as seções */}
+          <span onClick={() => scrollToSection("sobre")} className={anchorClasses("#sobre")}>
+            Sobre mim
+          </span>
+          <span className="mx-2 text-blue-200/40">|</span>
+          <span onClick={() => scrollToSection("conferencia")} className={anchorClasses("#conferencia")}>
+            Conferências e Comunidades
+          </span>
+          <span className="mx-2 text-blue-200/40">|</span>
+          <span onClick={() => scrollToSection("projetos")} className={anchorClasses("#projetos")}>
+            Projetos
+          </span>
+          <span className="mx-2 text-blue-200/40">|</span>
+          {/* Links de login/admin/logout */}
           {isLoggedIn ? (
             <>
               <Link to="/admin" className={linkClasses("/admin")}>
                 Admin
               </Link>
+              <span className="mx-2 text-blue-200/40">|</span>
               <button
                 onClick={handleLogout}
                 className="

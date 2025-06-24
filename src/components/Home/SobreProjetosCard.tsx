@@ -75,7 +75,7 @@ const SobreProjetosCard: React.FC<Props> = ({ projetos }) => {
   </svg>
   Sobre os Projetos
 </h4>
-      <hr className="mb-2"></hr>
+      <hr className="m-2 border-mb-2 border-blue-300 shadow-[0_0_24px_4px_#38bdf8]"></hr>
       <ul className="text-white/90 text-sm space-y-2 mb-4">
         <li><b>Total de projetos:</b> {projetos.length}</li>
         <li><b>Projetos em destaque:</b> {projetos.filter(p => p.destaque).length}</li>
@@ -97,7 +97,7 @@ const SobreProjetosCard: React.FC<Props> = ({ projetos }) => {
       </ul>
       {Object.keys(tecnologiasCount).length > 0 && (
         <>
-            <hr className="mb-4" />
+            <hr className="mb-4 border-mb-2" />
           <h5 className="text-base font-semibold text-blue-200 mb-2 text-center">Tecnologias mais usadas (%)</h5>
           <div className="w-full flex justify-center items-center">
             <Pie data={pieData} options={pieOptions} style={{ maxWidth: 220, maxHeight: 220 }} />

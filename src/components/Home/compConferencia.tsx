@@ -48,7 +48,7 @@ const CompConferencia: React.FC = () => {
 
   return (
     <Fragment>
-      <div className="w-full flex flex-col items-center max-w-7xl mx-auto bg-gradient-to-r from-blue-900 via-blue-700 to-blue-900 p-8 rounded-3xl shadow-2xl border-2 border-blue-400">
+      <div className="w-full flex flex-col items-center max-w-7xl mx-auto bg-gradient-to-r from-blue-900 via-blue-700 to-blue-900 p-8 rounded-3xl border-2 border-blue-300 shadow-[0_0_24px_4px_#38bdf8]">
         <h2 className="text-2xl md:text-3xl font-extrabold text-white text-center drop-shadow-lg mb-8 tracking-tight font-inter">
           <span role="img" aria-label="coração">❤️</span> Conferências e Comunidades que Participo 
         </h2>

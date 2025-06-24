@@ -5,6 +5,7 @@ import { db } from "../../../services/firebase";
 export default function FormProfile() {
   const [form, setForm] = useState({
     nomeCompleto: "",
+    tituloProfissao: "", // novo campo
     foto: "",
     bio: "",
     softSkills: "",
@@ -40,6 +41,7 @@ export default function FormProfile() {
         perfil: {
           foto: form.foto,
           nomeCompleto: form.nomeCompleto,
+          tituloProfissao: form.tituloProfissao, // novo campo salvo
           bio: form.bio,
           softSkills: form.softSkills,
           ativo: form.ativo === "sim"
@@ -90,6 +92,17 @@ export default function FormProfile() {
             <div className="flex flex-col gap-1">
               <label className="font-semibold text-white">Nome Completo</label>
               <input name="nomeCompleto" value={form.nomeCompleto} onChange={handleInput} className="border px-3 py-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-300" />
+            </div>
+            {/* Novo campo Título Profissão */}
+            <div className="flex flex-col gap-1">
+              <label className="font-semibold text-white">Título Profissão</label>
+              <input
+                name="tituloProfissao"
+                value={form.tituloProfissao}
+                onChange={handleInput}
+                className="border px-3 py-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-300"
+                placeholder="Ex: Desenvolvedor Full Stack Python"
+              />
             </div>
             <div className="flex flex-col gap-1">
               <label className="font-semibold text-white">Bio / Resumo Profissional</label>

@@ -89,13 +89,13 @@ const CompProjetos: React.FC = () => {
 
   return (
     <Fragment>
-      <div className="w-full max-w-7xl mx-auto bg-gradient-to-r from-blue-900 via-blue-700 to-blue-900 p-8 rounded-3xl shadow-2xl border-2 border-blue-400">
+      <div className="w-full max-w-7xl mx-auto bg-gradient-to-r from-blue-900 via-blue-700 to-blue-900 p-8 rounded-3xl border-2 border-blue-300 shadow-[0_0_24px_4px_#38bdf8]">
         <h2 className="text-2xl md:text-3xl font-extrabold text-white text-center drop-shadow-lg mb-8 tracking-tight font-inter">
           Projetos
         </h2>
-        <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-8 ">
           {/* Cards dos projetos ocupando 2 colunas */}
-          <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-8">
+          <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-8 ">
             {projetos.map((p) => (
               <div
                 key={p.id}
