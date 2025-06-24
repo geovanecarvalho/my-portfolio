@@ -18,7 +18,7 @@ const Home: React.FC = () => {
           <CompConferencia />
         </section>
         {/* Projetos em destaque, centralizados */}
-        <section id="projetos" className="pt-36 m-5 w-full flex flex-col items-center bg-gradient-to-br from-blue-700 via-blue-400 to-blue-450 rounded-3xl shadow-2xl p-2 mb-4 animate-slide-down">
+        <section id="projetos" className="pt-36 w-full flex flex-col items-center bg-gradient-to-br from-blue-700 via-blue-400 to-blue-450 rounded-3xl shadow-2xl p-2 mb-4 animate-slide-down">
           <CompProjetos />
         </section>
       </main>
