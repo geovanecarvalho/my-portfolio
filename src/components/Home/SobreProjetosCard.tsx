@@ -126,14 +126,16 @@ const SobreProjetosCard: React.FC<Props> = ({ projetos }) => {
 
           return (
             <li key={categoria} className="indent-6">
-              <b>{categoria} {count}</b>
+              <b>{categoria}: {count}</b>
               <ul className="ml-4 list-disc list-inside text-white/80 text-xs">
                 {projetosDaCategoria.map((p) => (
                   <li key={p.id}>
                     <a
                         href={`#${p.nome}`}
                         className="hover:underline text-blue-300 whitespace-nowrap text-sm"
+                        title ={`Ver detalhes do projeto ${p.nome}`}
                       >
+                        
                         {p.nome}{" "}
                         <span className="text-pink-400 font-bold">
                         <svg
@@ -160,6 +162,7 @@ const SobreProjetosCard: React.FC<Props> = ({ projetos }) => {
             <a
               href={`#${projetos.reduce((a, b) => (a.likes || 0) > (b.likes || 0) ? a : b).nome}`}
               className="text-blue-300 hover:underline"
+              title="Ver detalhes do projeto mais curtido"
             >
               {projetos.reduce((a, b) => (a.likes || 0) > (b.likes || 0) ? a : b).nome}
             </a>
