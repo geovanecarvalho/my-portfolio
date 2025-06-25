@@ -17,6 +17,7 @@ interface ProjetoData {
   dataPublicacao: string;
   status: string;
   destaque: boolean;
+  categoria: string;
   created_at: string;
   updated_at: string;
   likes?: number;
@@ -57,6 +58,7 @@ const CompProjetos: React.FC = () => {
           dataPublicacao: data.dataPublicacao || "",
           status: data.status || "",
           destaque: !!data.destaque,
+          categoria: data.categoria || "",
           created_at: data.created_at || "",
           updated_at: data.updated_at || "",
           likes: typeof data.likes === "number" ? data.likes : 0,
@@ -121,6 +123,18 @@ const CompProjetos: React.FC = () => {
                   </legend>
                   <div className="text-white text-sm mt-2 space-y-1 text-left">
                     <div>
+                      <span className="font-semibold text-blue-200">Nome do Projeto:</span>{" "}
+                      <span className="text-white/90">{formatDate(p.nome)}</span>
+                    </div>
+                    <div>
+                      <span className="font-semibold text-blue-200">Categoria:</span>{" "}
+                      <span className="text-white/90">{formatDate(p.categoria)}</span>
+                    </div>
+                    <div>
+                      <span className="font-semibold text-blue-200">Em destaque: </span>{""}
+                      <span className="text-white/90">{formatDate(p.destaque ? "Sim": "Não" )}</span>
+                    </div>
+                    <div>
                       <span className="font-semibold text-blue-200">📝 Descrição:</span>{" "}
                       <span
                         className="text-white/90 block text-justify indent-6 mb-2"
@@ -149,25 +163,13 @@ const CompProjetos: React.FC = () => {
                       <span className="font-semibold text-blue-200">📅 Publicação:</span>{" "}
                       <span className="text-white/90">{formatDate(p.dataPublicacao)}</span>
                     </div>
+                     
                     <div className="text-xs text-blue-100">
                       <b>Criado em:</b> {formatDate(p.created_at)} &nbsp;|&nbsp;
                       <b>Atualizado em:</b> {formatDate(p.updated_at)}
                     </div>
                   </div>
-                </fieldset>
-
-                {/* Preview GIF ocupando toda a largura, tamanho padrão */}
-                {p.gifPreview && (
-                  <div className="w-full flex justify-center">
-                    <img
-                      src={p.gifPreview}
-                      alt={p.nome + ' preview'}
-                      className="w-full h-64 rounded-lg object-cover border-2 border-blue-200/60 shadow my-2 bg-white/10"
-                    />
-                  </div>
-                )}
-
-                {/* Fieldset para links com ícones */}
+                   {/* Fieldset para links com ícones */}
                 <fieldset className="border-2 border-blue-200/60 rounded-xl px-4 py-3 bg-white/10 w-full mb-2 mt-2">
                   <legend className="font-semibold text-white px-2 flex items-center gap-2">
                     Links
@@ -211,6 +213,21 @@ const CompProjetos: React.FC = () => {
                     )}
                   </div>
                 </fieldset>
+
+                </fieldset>
+                
+
+                {/* Preview GIF ocupando toda a largura, tamanho padrão */}
+                {p.gifPreview && (
+                  <div className="w-full flex justify-center">
+                    <img
+                      src={p.gifPreview}
+                      alt={p.nome + ' preview'}
+                      className="w-full h-64 rounded-lg object-cover border-2 border-blue-200/60 shadow my-2 bg-white/10"
+                    />
+                  </div>
+                )}
+
 
                 {/* Botão de curtida ocupando toda a largura */}
                 <div className="w-full mt-2">

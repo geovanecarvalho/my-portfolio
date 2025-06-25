@@ -15,6 +15,7 @@ interface FormProjectsProps {
 
 export default function FormProjects({ onSuccess }: FormProjectsProps) {
   const [form, setForm] = useState({
+    categoria:"",
     nome: "",
     descricao: "",
     imagemCapa: "",
@@ -43,6 +44,7 @@ export default function FormProjects({ onSuccess }: FormProjectsProps) {
     try {
       const now = new Date();
       await addDoc(collection(db, "projetos"), {
+        categoria: form.categoria,
         nome: form.nome,
         descricao: form.descricao,
         imagemCapa: form.imagemCapa,
@@ -60,6 +62,7 @@ export default function FormProjects({ onSuccess }: FormProjectsProps) {
       });
       setMensagem("Projeto cadastrado com sucesso!");
       setForm({
+        categoria: "",
         nome: "",
         descricao: "",
         imagemCapa: "",
@@ -82,6 +85,10 @@ export default function FormProjects({ onSuccess }: FormProjectsProps) {
     <div className="p-6 max-w-2xl mx-auto bg-gradient-to-r from-blue-900 via-blue-700 to-blue-400 rounded-lg shadow-lg">
       <h1 className="text-3xl font-bold mb-6 text-center text-white">Cadastrar Projeto</h1>
       <form onSubmit={handleSubmit} className="grid gap-6">
+         <div className="flex flex-col gap-1">
+          <label className="font-semibold text-white">Tipo de Projeto</label>
+          <input name="categoria" value={form.categoria} onChange={handleInput} placeholder="Exemplo: Web backend" className="border px-3 py-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-300" required />
+        </div>
         <div className="flex flex-col gap-1">
           <label className="font-semibold text-white">Nome do Projeto</label>
           <input name="nome" value={form.nome} onChange={handleInput} className="border px-3 py-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-300" required />
