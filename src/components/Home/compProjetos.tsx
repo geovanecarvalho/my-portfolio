@@ -110,28 +110,28 @@ const CompProjetos: React.FC = () => {
                     <img
                       src={p.imagemCapa}
                       alt={p.nome}
-                      className="w-16 h-16 rounded-full object-cover border-4 border-blue-300 shadow mr-4"
+                      className="w-16 h-16 rounded object-cover p-1 border-2 border-blue-200/60 shadow mr-4"
                     />
                   )}
-                  <h5 className="text-2xl font-bold text-white drop-shadow text-left">{p.nome}</h5>
+                  <h5 className="text-2xl font-bold text-white drop-shadow text-left border-b-2 border-blue-300 shadow-[0_10_24px_#38bdf8]">{p.nome}</h5>
                 </div>
 
                 {/* Dados do projeto alinhados à esquerda em fieldset */}
-                <fieldset className="border-2 border-blue-200/60 rounded-xl px-4 py-3 bg-white/10 w-full mb-2">
+                <fieldset className="border-2  border-blue-200/60 shadow mr-4 rounded-xl px-4 py-3 bg-white/10 w-full">
                   <legend className="font-semibold text-white px-2 flex items-center gap-2">
-                    Informações
+                    ℹ️Informações
                   </legend>
                   <div className="text-white text-sm mt-2 space-y-1 text-left">
                     <div>
-                      <span className="font-semibold text-blue-200">Nome do Projeto:</span>{" "}
+                      <span className="font-semibold text-blue-200">💾 Nome do Projeto:</span>{" "}
                       <span className="text-white/90">{formatDate(p.nome)}</span>
                     </div>
                     <div>
-                      <span className="font-semibold text-blue-200">Categoria:</span>{" "}
+                      <span className="font-semibold text-blue-200">📌 Categoria:</span>{" "}
                       <span className="text-white/90">{formatDate(p.categoria)}</span>
                     </div>
                     <div>
-                      <span className="font-semibold text-blue-200">Em destaque: </span>{""}
+                      <span className="font-semibold text-blue-200">⭐ Em destaque: </span>{""}
                       <span className="text-white/90">{formatDate(p.destaque ? "Sim": "Não" )}</span>
                     </div>
                     <div>
@@ -172,7 +172,7 @@ const CompProjetos: React.FC = () => {
                    {/* Fieldset para links com ícones */}
                 <fieldset className="border-2 border-blue-200/60 rounded-xl px-4 py-3 bg-white/10 w-full mb-2 mt-2">
                   <legend className="font-semibold text-white px-2 flex items-center gap-2">
-                    Links
+                    🔗Links
                   </legend>
                   <div className="flex flex-wrap gap-4 justify-center w-full mt-2">
                     {p.linkDetalhes && (
@@ -214,9 +214,6 @@ const CompProjetos: React.FC = () => {
                   </div>
                 </fieldset>
 
-                </fieldset>
-                
-
                 {/* Preview GIF ocupando toda a largura, tamanho padrão */}
                 {p.gifPreview && (
                   <div className="w-full flex justify-center">
@@ -227,8 +224,6 @@ const CompProjetos: React.FC = () => {
                     />
                   </div>
                 )}
-
-
                 {/* Botão de curtida ocupando toda a largura */}
                 <div className="w-full mt-2">
                   <button
@@ -244,7 +239,12 @@ const CompProjetos: React.FC = () => {
                     <span className="ml-1 text-xs">({p.likes || 0})</span>
                   </button>
                 </div>
+                </fieldset>
+                
+
               </div>
+
+
             ))}
           </div>
 
