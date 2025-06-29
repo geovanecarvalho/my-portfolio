@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { Pie, Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -9,6 +9,8 @@ import {
   LinearScale,
   BarElement,
 } from "chart.js";
+
+
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement);
 
@@ -26,6 +28,9 @@ interface Props {
 }
 
 const SobreProjetosCard: React.FC<Props> = ({ projetos }) => {
+  const pieRef = useRef<any>(null);
+  const barRef = useRef<any>(null);
+
   const tecnologiasCount: { [tec: string]: number } = {};
   projetos.forEach((p) => {
     p.tecnologias.forEach((tec) => {
@@ -41,7 +46,8 @@ const SobreProjetosCard: React.FC<Props> = ({ projetos }) => {
       {
         data: Object.values(tecnologiasCount),
         backgroundColor: [
-          "#60a5fa", "#fbbf24", "#34d399", "#f87171", "#a78bfa", "#f472b6", "#facc15", "#818cf8"
+          "#60a5fa", "#fbbf24", "#34d399", "#f87171",
+          "#a78bfa", "#f472b6", "#facc15", "#818cf8"
         ],
       },
     ],
@@ -104,6 +110,27 @@ const SobreProjetosCard: React.FC<Props> = ({ projetos }) => {
     categoriasCount[p.categoria] = (categoriasCount[p.categoria] || 0) + 1;
   });
 
+  // 👉 Força atualização dos gráficos ao reabrir o dashboard ou atualizar dados
+useEffect(() => {
+  const timeout = setTimeout(() => {
+    const pie = pieRef.current;
+    const bar = barRef.current;
+
+    // Força re-renderização só se estiver visível
+    if (pie && pie.canvas && pie.canvas.offsetParent !== null) {
+      pie.resize();
+      pie.update();
+    }
+
+    if (bar && bar.canvas && bar.canvas.offsetParent !== null) {
+      bar.resize();
+      bar.update();
+    }
+  }, 400); // tempo ideal para o painel expandir
+
+  return () => clearTimeout(timeout);
+}, [projetos]);
+
   return (
     <div className="md:col-span-1 bg-gradient-to-br from-blue-950 via-blue-800 to-blue-900 p-6 rounded-2xl border border-blue-300/30 shadow-lg hover:shadow-blue-500/40 transition-shadow duration-300 flex flex-col justify-between">
 
@@ -118,7 +145,6 @@ const SobreProjetosCard: React.FC<Props> = ({ projetos }) => {
       <ul className="text-white/90 text-sm space-y-2 mb-4">
         <li><b>Total de projetos:</b> {projetos.length}</li>
         <li><b>Projetos em destaque:</b> {projetos.filter(p => p.destaque).length}</li>
-
         <li><b>Categorias:</b></li>
         {Object.entries(categoriasCount).sort((a, b) => b[1] - a[1]).map(([categoria, count]) => {
           const projetosDaCategoria = projetos
@@ -132,13 +158,12 @@ const SobreProjetosCard: React.FC<Props> = ({ projetos }) => {
                 {projetosDaCategoria.map((p) => (
                   <li key={p.id}>
                     <a
-                        href={`#${p.nome}`}
-                        className="hover:underline text-blue-300 whitespace-nowrap text-sm"
-                        title ={`Ver detalhes do projeto ${p.nome}`}
-                      >
-                        
-                        {p.nome}{" "}
-                        <span className="text-pink-400 font-bold">
+                      href={`#${p.nome}`}
+                      className="hover:underline text-blue-300 whitespace-nowrap text-sm"
+                      title={`Ver detalhes do projeto ${p.nome}`}
+                    >
+                      {p.nome}{" "}
+                      <span className="text-pink-400 font-bold">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           className="inline h-3 w-3 fill-current mx-1"
@@ -148,8 +173,7 @@ const SobreProjetosCard: React.FC<Props> = ({ projetos }) => {
                         </svg>
                         {p.likes || 0}
                       </span>
-                      
-                      </a>
+                    </a>
                   </li>
                 ))}
               </ul>
@@ -203,12 +227,12 @@ const SobreProjetosCard: React.FC<Props> = ({ projetos }) => {
 
           {/* Gráfico de Pizza */}
           <div className="w-full flex justify-center items-center mb-6">
-            <Pie data={pieData} options={pieOptions} style={{ maxWidth: 260, maxHeight: 260 }} />
+            <Pie ref={pieRef} data={pieData} options={pieOptions} style={{ maxWidth: 260, maxHeight: 260 }} />
           </div>
 
           {/* Gráfico de Barras Verticais */}
           <div className="w-full mb-2">
-            <Bar data={barData} options={barOptions} />
+            <Bar ref={barRef} data={barData} options={barOptions} />
           </div>
         </>
       )}
