@@ -57,12 +57,12 @@ const ComponentMenuHome = ({ pageName }: Props) => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-gradient-to-r from-blue-900 via-blue-700 to-blue-400 text-white p-4 border-mb-2 border-blue-300 shadow-[0_0_24px_4px_#38bdf8]">
+    <nav className="fixed top-0 left-0 w-full z-50 bg-gradient-to-br from-blue-950 via-blue-800 to-blue-900 border-mb-2 border-blue-200/60 px-4 py-3 shadow-lg hover:shadow-blue-500/40 transition-shadow duration-30">
       <div className="flex justify-between items-center w-full px-4 py-3">
         {/* Logo e nome */}
         <div className="flex items-center space-x-2 text-xl font-bold">
           <img src={Logo} alt="Logo" className="w-10" />
-          <span>{pageName}</span>
+          <span className="text-gray-300">{pageName}</span>
         </div>
 
         {/* Botão Hamburguer (mobile) */}
@@ -85,7 +85,7 @@ const ComponentMenuHome = ({ pageName }: Props) => {
           </span>
           <span className="mx-2 text-blue-200/40">|</span>
           <span onClick={() => scrollToSection("conferencia")} className={anchorClasses("#conferencia")}>
-            Conferências e Comunidades
+            Conferências & Comunidades
           </span>
           <span className="mx-2 text-blue-200/40">|</span>
           <span onClick={() => scrollToSection("projetos")} className={anchorClasses("#projetos")}>

@@ -95,15 +95,19 @@ const CompConferencia: React.FC = () => {
   return (
     <Fragment>
       <div className="w-full flex flex-col items-center max-w-7xl mx-auto bg-gradient-to-r from-blue-900 via-blue-700 to-blue-900 p-8 rounded-3xl border-2 border-blue-300 shadow-[0_0_24px_4px_#38bdf8]">
+
+
+  
         <h2 className="text-2xl md:text-3xl font-extrabold text-white text-center drop-shadow-lg mb-8 tracking-tight font-inter">
           <span role="img" aria-label="coração">❤️</span> Conferências e Comunidades que Participo
         </h2>
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
           {conferencias.map((c) => (
             <div
-              key={c.id}
-              className="bg-white/10 backdrop-blur-md rounded-2xl shadow-lg border-2 border-white/30 p-6 flex flex-col items-center min-h-[400px]"
-            >
+  key={c.id}
+  className="bg-gradient-to-br from-blue-950 via-blue-800 to-blue-900 border border-blue-300/30 shadow-lg hover:shadow-blue-500/40 transition-shadow duration-300 rounded-2xl p-6 flex flex-col items-center min-h-[400px]"
+>
+
               {c.imagem && (
                 <div className="mb-3">
                   <img

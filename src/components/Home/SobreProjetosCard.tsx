@@ -105,7 +105,8 @@ const SobreProjetosCard: React.FC<Props> = ({ projetos }) => {
   });
 
   return (
-    <div className="md:col-span-1 bg-white/10 rounded-2xl shadow-lg border-2 border-blue-200/40 p-6 flex flex-col min-h-[340px]">
+    <div className="md:col-span-1 bg-gradient-to-br from-blue-950 via-blue-800 to-blue-900 p-6 rounded-2xl border border-blue-300/30 shadow-lg hover:shadow-blue-500/40 transition-shadow duration-300 flex flex-col justify-between">
+
       <h4 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7a2 2 0 012-2h3.172a2 2 0 011.414.586l1.828 1.828A2 2 0 0012.828 8H19a2 2 0 012 2v7a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" />

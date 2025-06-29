@@ -10,15 +10,15 @@ const Home: React.FC = () => {
       <ComponentMenuHome pageName="Seja bem-vindo ao meu portfólio" />
       <main className="max-w-screen-xl mx-auto flex flex-col gap-6 px-2 md:px-6 py-4">
         {/* Painel de destaque do perfil */}
-        <section id="sobre" className="pt-36 w-full flex flex-col items-center bg-gradient-to-br from-blue-700 via-blue-400 to-blue-450 rounded-3xl shadow-2xl p-2 mb-4 animate-slide-down">
+        <section id="sobre" className="pt-36 w-full flex flex-col items-center">
           <CompPerfil />
         </section>
         {/* Conferências e Comunidade */}
-        <section id="conferencia" className="pt-36 w-full flex flex-col items-center bg-gradient-to-br from-blue-700 via-blue-400 to-blue-450 rounded-3xl shadow-2xl p-2 mb-4 animate-slide-down">
+        <section id="conferencia" className="pt-36 w-full flex flex-col items-center">
           <CompConferencia />
         </section>
         {/* Projetos em destaque, centralizados */}
-        <section id="projetos" className="pt-36 w-full flex flex-col items-center bg-gradient-to-br from-blue-700 via-blue-400 to-blue-450 rounded-3xl shadow-2xl p-2 mb-4 animate-slide-down">
+        <section id="projetos" className="pt-36 w-full flex flex-col items-center">
           <CompProjetos />
         </section>
       </main>
