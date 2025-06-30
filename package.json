@@ -14,6 +14,7 @@
     "@fontsource-variable/roboto-flex": "^5.2.6",
     "@phosphor-icons/react": "^2.1.10",
     "chart.js": "^4.4.9",
+    "chartjs-plugin-datalabels": "^2.2.0",
     "firebase": "^11.8.1",
     "lucide-react": "^0.513.0",
     "react": "^19.1.0",

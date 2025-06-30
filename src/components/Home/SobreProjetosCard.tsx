@@ -1,5 +1,6 @@
 import React from "react";
 import { Pie, Bar } from "react-chartjs-2";
+
 import {
   Chart as ChartJS,
   ArcElement,
@@ -9,6 +10,8 @@ import {
   LinearScale,
   BarElement,
 } from "chart.js";
+
+
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement);
 
@@ -25,6 +28,16 @@ interface Props {
   projetos: ProjetoData[];
 }
 
+// Gera uma lista de cores HSL dinâmicas
+function generateColors(count: number): string[] {
+  const colors = [];
+  for (let i = 0; i < count; i++) {
+    const hue = Math.floor((360 / count) * i);
+    colors.push(`hsl(${hue}, 70%, 60%)`);
+  }
+  return colors;
+}
+
 const SobreProjetosCard: React.FC<Props> = ({ projetos }) => {
   const tecnologiasCount: { [tec: string]: number } = {};
   projetos.forEach((p) => {
@@ -35,14 +48,15 @@ const SobreProjetosCard: React.FC<Props> = ({ projetos }) => {
 
   const totalCurtidas = projetos.reduce((acc, p) => acc + (p.likes || 0), 0);
 
+  const labels = Object.keys(tecnologiasCount);
+  const backgroundColors = generateColors(labels.length);
+
   const pieData = {
-    labels: Object.keys(tecnologiasCount),
+    labels,
     datasets: [
       {
         data: Object.values(tecnologiasCount),
-        backgroundColor: [
-          "#60a5fa", "#fbbf24", "#34d399", "#f87171", "#a78bfa", "#f472b6", "#facc15", "#818cf8"
-        ],
+        backgroundColor: backgroundColors,
       },
     ],
   };
@@ -50,10 +64,7 @@ const SobreProjetosCard: React.FC<Props> = ({ projetos }) => {
   const pieOptions = {
     plugins: {
       legend: {
-        labels: {
-          color: "#e0e7ef",
-          font: { size: 13 }
-        }
+        display: false,
       },
       tooltip: {
         bodyColor: "#e0e7ef",
@@ -72,15 +83,16 @@ const SobreProjetosCard: React.FC<Props> = ({ projetos }) => {
   };
 
   const barData = {
-    labels: Object.keys(tecnologiasCount),
-    datasets: [
-      {
-        label: "Projetos por Tecnologia",
-        data: Object.values(tecnologiasCount),
-        backgroundColor: "#3b82f6",
-      },
-    ],
-  };
+  labels,
+  datasets: [
+    {
+      label: "Projetos por Tecnologia",
+      data: Object.values(tecnologiasCount),
+      backgroundColor: backgroundColors,
+    },
+  ],
+};
+
 
   const barOptions = {
     indexAxis: "x" as const,
@@ -90,11 +102,11 @@ const SobreProjetosCard: React.FC<Props> = ({ projetos }) => {
     scales: {
       x: {
         ticks: { color: "#e0e7ef" },
-        grid: { color: "#334155" },
+        grid: { color: "#7c8693" },
       },
       y: {
         ticks: { color: "#e0e7ef" },
-        grid: { color: "#334155" },
+        grid: { color: "#7c8693" },
       },
     },
   };
@@ -132,13 +144,12 @@ const SobreProjetosCard: React.FC<Props> = ({ projetos }) => {
                 {projetosDaCategoria.map((p) => (
                   <li key={p.id}>
                     <a
-                        href={`#${p.nome}`}
-                        className="hover:underline text-blue-300 whitespace-nowrap text-sm"
-                        title ={`Ver detalhes do projeto ${p.nome}`}
-                      >
-                        
-                        {p.nome}{" "}
-                        <span className="text-pink-400 font-bold">
+                      href={`#${p.nome}`}
+                      className="hover:underline text-blue-300 whitespace-nowrap text-sm"
+                      title={`Ver detalhes do projeto ${p.nome}`}
+                    >
+                      {p.nome}{" "}
+                      <span className="text-pink-400 font-bold">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           className="inline h-3 w-3 fill-current mx-1"
@@ -148,8 +159,7 @@ const SobreProjetosCard: React.FC<Props> = ({ projetos }) => {
                         </svg>
                         {p.likes || 0}
                       </span>
-                      
-                      </a>
+                    </a>
                   </li>
                 ))}
               </ul>
@@ -180,34 +190,62 @@ const SobreProjetosCard: React.FC<Props> = ({ projetos }) => {
         </li>
       </ul>
 
-      {Object.keys(tecnologiasCount).length > 0 && (
+      {/* Tecnologias mais usadas com gráfico */}
+      {labels.length > 0 && (
         <>
           <hr className="mb-4 border-mb-2" />
           <h5 className="text-base font-semibold text-blue-200 mb-2 text-center">Tecnologias mais usadas</h5>
 
           {/* Lista com porcentagens */}
           <ul className="text-sm text-white/90 space-y-1 mb-4">
-            {Object.entries(tecnologiasCount)
-              .sort((a, b) => b[1] - a[1])
-              .map(([tec, count]) => {
+            {labels.map((tec) => {
+              const count = tecnologiasCount[tec];
+              const total = Object.values(tecnologiasCount).reduce((a, b) => a + b, 0);
+              const percent = ((count / total) * 100).toFixed(1);
+              return (
+                <li key={tec} className="flex justify-between">
+                  <span className="font-medium">{tec}</span>
+                  <span className="text-blue-200">{percent}%</span>
+                </li>
+              );
+            })}
+          </ul>
+
+          {/* Legenda personalizada com tooltips */}
+          <div className="flex flex-col items-start w-full text-white/90">
+            <div className="grid grid-cols-2 gap-x-6 gap-y-2">
+              {labels.map((tec, i) => {
+                const count = tecnologiasCount[tec];
                 const total = Object.values(tecnologiasCount).reduce((a, b) => a + b, 0);
                 const percent = ((count / total) * 100).toFixed(1);
                 return (
-                  <li key={tec} className="flex justify-between">
-                    <span className="font-medium">{tec}</span>
-                    <span className="text-blue-200">{percent}%</span>
-                  </li>
+                  <div
+                    key={tec}
+                    className="flex items-center gap-2 text-sm"
+                    title={`${tec}: ${percent}% (${count} projetos)`}
+                  >
+                    <span
+                      className="inline-block w-4 h-4 rounded-sm"
+                      style={{ backgroundColor: backgroundColors[i] }}
+                    ></span>
+                    <span>{tec}</span>
+                  </div>
                 );
               })}
-          </ul>
+            </div>
 
-          {/* Gráfico de Pizza */}
-          <div className="w-full flex justify-center items-center mb-6">
-            <Pie data={pieData} options={pieOptions} style={{ maxWidth: 260, maxHeight: 260 }} />
+            {/* Gráfico de Pizza */}
+            <div className="mt-[10px] w-full flex justify-center">
+              <Pie
+                data={pieData}
+                options={pieOptions}
+                style={{ maxWidth: 260, maxHeight: 260 }}
+              />
+            </div>
           </div>
 
-          {/* Gráfico de Barras Verticais */}
-          <div className="w-full mb-2">
+          {/* Gráfico de Barras */}
+          <div className="w-full mt-4">
             <Bar data={barData} options={barOptions} />
           </div>
         </>
