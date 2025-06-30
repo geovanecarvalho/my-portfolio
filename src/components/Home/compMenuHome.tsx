@@ -48,13 +48,16 @@ const ComponentMenuHome = ({ pageName }: Props) => {
      }`;
 
   // Scroll suave para âncoras sem recarregar a página
-  const scrollToSection = (id: string) => {
-    const el = document.getElementById(id.replace("#", ""));
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-      setIsMenuOpen(false);
-    }
-  };
+const scrollToSection = (id: string) => {
+  const el = document.getElementById(id.replace("#", ""));
+  if (el) {
+    const yOffset = -130; // Deslocar 20px acima da posição da seção
+    const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+    window.scrollTo({ top: y, behavior: "smooth" });
+    setIsMenuOpen(false);
+  }
+};
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-gradient-to-br from-blue-950 via-blue-800 to-blue-900 border-mb-2 border-blue-200/60 px-4 py-3 shadow-lg hover:shadow-blue-500/40 transition-shadow duration-30">
