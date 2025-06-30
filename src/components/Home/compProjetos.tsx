@@ -3,6 +3,7 @@ import { collection, getDocs, doc, updateDoc, increment } from "firebase/firesto
 import { db } from "../../services/firebase";
 import { LinkSimple, GithubLogo, Monitor } from "@phosphor-icons/react";
 import SobreProjetosCard from "./SobreProjetosCard";
+import { Link } from "react-router-dom";
 
 interface ProjetoData {
   id: string;
@@ -139,9 +140,10 @@ const CompProjetos: React.FC = () => {
 
                 <div className="flex flex-wrap gap-4 justify-start mb-4">
                   {p.linkDetalhes && (
-                    <a href={p.linkDetalhes} target="_blank" rel="noopener noreferrer" className="text-blue-300 hover:text-yellow-400 flex items-center gap-1 text-sm">
-                      <LinkSimple size={18} /> Detalhes
-                    </a>
+                    <Link to={`/project/${p.id}`} className="text-blue-300 hover:text-yellow-400 flex items-center gap-1 text-sm">
+                    <LinkSimple size={18} /> Detalhes
+                    </Link>
+                    
                   )}
                   {p.linkRepositorio && (
                     <a href={p.linkRepositorio} target="_blank" rel="noopener noreferrer" className="text-blue-300 hover:text-yellow-400 flex items-center gap-1 text-sm">

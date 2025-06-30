@@ -5,12 +5,13 @@ import Login from './pages/login.tsx';
 import Profile from './pages/admin_profile.tsx';
 import Projects from './pages/admin_projects.tsx';
 import PrivateRoute from './components/privateRoutes.tsx';
-
+import ProjectDetail from './pages/detail.tsx';
 
 const App: React.FC = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/project/:id" element={<ProjectDetail />} />
       <Route path="/login" element={<Login />} />
       {/* Rotas protegidas */}
       <Route
